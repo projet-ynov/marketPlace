@@ -1,0 +1,31 @@
+.header {
+    background-color: grey;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+}
+
+.search {
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+input {
+    display: flex;
+    justify-content: center;
+    height: 35px;
+    width: 320px;
+    background-color: lightgray;
+}
+
+input:focus  {
+    background-color: white;
+
+}
+
+
+.profil {
+    margin: 5px;
+}
