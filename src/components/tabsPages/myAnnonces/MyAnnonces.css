@@ -1,0 +1,39 @@
+.containerMyAnnonces {
+
+}
+
+.flexMyAnnonces {
+    border: #1a1a1a 2px solid;
+    height: 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    width: 300px;
+}
+
+.test img {
+    height: auto;
+    width: 140px;
+    max-height: 140px;
+    object-fit: cover;
+    z-index: 0;
+}
+
+.flexMyAnnonces button {
+    height: 50%;
+    max-height: 80px;
+    margin-right: 15px;
+    background-color: #0B7697;
+    color: white;
+}
+
+.test {
+    display: flex;
+    height: 100%;
+    justify-content: space-between;
+    width: 50%;
+}

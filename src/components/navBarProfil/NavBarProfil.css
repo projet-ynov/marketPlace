@@ -1,0 +1,14 @@
+.containNav {
+    background-color: grey;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+}
+
+
+.returnArrow .arrow {
+    font-size: 2.5rem;
+    background-color: white;
+    border-radius: 180px;
+    margin: 5px;
+}

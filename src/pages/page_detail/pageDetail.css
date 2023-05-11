@@ -1,7 +1,7 @@
-.container {
+.container1 {
     display: flex;
     gap: 5px;
-    height: 100vh;
+
     margin: 5vh;
 }
 

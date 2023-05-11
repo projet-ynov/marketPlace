@@ -1,7 +1,7 @@
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import NavBar from "../../navBar/NavBar.tsx";
+import NavBar from "../../components/navBar/NavBar.tsx";
 import "./pageDetail.css";
 import {Avatar} from "@mui/material";
 import {deepOrange} from '@mui/material/colors';
@@ -15,7 +15,7 @@ function PageDetail() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const article = await axios(`http://localhost:8080/api/products/${detailsId}`);
+            const article = await axios(`http://localhost:3000/annonce/${detailsId}`);
             setData(article.data);
         };
         fetchData();
@@ -23,19 +23,18 @@ function PageDetail() {
 
     useEffect(() => {
         setLoading(true);
-        if (data && data.photo) {
+        if (data && data.images) {
             const img = new Image();
             img.onload = () => setLoading(false);
-            img.src = data.photo;
+            img.src = data.images[0].image;
         }
     }, [data]);
 
-    const photo = [{photo:"https://www.maisons-france-confort.fr/wp-content/uploads/2021/03/20210304-maisons-france-confort-realisation-maison-contemporaine4.jpg"},{photo:"https://www.maisons-pierre.com/wp-content/uploads/2022/07/1920x740_Boreal.jpg"},{photo:"https://www.maisons-open.fr/wp-content/uploads/2021/06/20210630-maisons-open-home.jpg"}]
 
     return (
         <>
             <NavBar />
-            <div className="container">
+            <div className="container1">
                 <div className="flex1">
                     <div className="flex1-1">
                         <Carousel
@@ -45,12 +44,12 @@ function PageDetail() {
                             prev={() => {/*prev*/ }}
                             className="tu"
                                 >
-                            {photo.map( (item, i) => <Item className="slideer" key={i} item={item} loading={loading}/> )}
+                            {data?.images.map( (item, i) => <Item className="slideer" key={i} item={item} loading={loading}/> )}
                         </Carousel>
                     </div>
                     <div className="flex1-2">
                         <div className="flex1-2-top">
-                            <h2>{data?.name}</h2>
+                            <h2>{data?.title}</h2>
                             <h2>{data?.price} €</h2>
                         </div>
                         <div className="flex1-2-bottom">
@@ -83,11 +82,10 @@ function PageDetail() {
 
 function Item(props: any) {
 
-
     return (
         <Paper>
 
-                <img src={props.item.photo} />
+                <img src={props.item.image} />
 
         </Paper>
     );

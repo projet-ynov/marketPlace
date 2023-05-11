@@ -1,28 +1,25 @@
-// interface Article {
-//     title: string;
-//     image: string,
-//     description: string,
-//     price: number,
-//     date: Date,
-//     location: string,
-//     vendeur: Vendeur
-// }
-
 interface Article {
-    product_id: number,
-    name: string,
+    _id:string
+    title: string;
+    images: image[],
     description: string,
     price: number,
-    promotion: number,
-    photo: string,
-    categorie: string,
-    stock: number
+    date: Date,
+    location: string,
+    profilUser: Vendeur
 }
 
+
+
 interface Vendeur {
-    id: string,
-    name: string,
-    avis: number,
+    _id: string,
+    mail: string,
+    username: string
+    image: string,
+    city: string
+}
+
+interface image {
     image: string
 }
 

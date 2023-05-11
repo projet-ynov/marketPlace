@@ -2,24 +2,22 @@ import {format} from 'date-fns';
 import {fr} from "date-fns/locale";
 import "./details.css";
 import {Avatar} from "@mui/material";
-import {useParams} from "react-router-dom";
 
 
 function Details(article: Article) {
 
 
-    // const {title, image, description, price, date, location, vendeur} = article;
-    const {name, photo, description, price, categorie} = article;
+    const {title, images, description, price, date, location, profilUser} = article;
 
 
-    // const formattedDate = format(date, 'd MMMM yyyy, HH:mm', {locale: fr});
+
+    const formattedDate = format(new Date(), 'd MMMM yyyy, HH:mm', {locale: fr});
     return (
         <>
-            {/*<h2 className="dateAnnonce">{formattedDate}</h2>*/}
-            <img src={photo}/>
+            <h2 className="dateAnnonce">{formattedDate}</h2>
+            <img src={images[0].image}/>
             <div className="headDetails">
-                {/*<h2>{title}</h2>*/}
-                <h2 className="title">{name.toLowerCase()}</h2>
+                <h2 className="title">{title.toLowerCase()}</h2>
                 <h2>{price} €</h2>
             </div>
             <div className="divider"></div>
@@ -31,9 +29,9 @@ function Details(article: Article) {
                 {/*{vendeur.image !== "" ? (*/}
                 {/*    <Avatar alt="Remy Sharp" src={vendeur.image}/>*/}
                 {/*) : (*/}
-                    <Avatar>{Array.from(name)[0].toUpperCase()}</Avatar>
-                {/*// )}*/}
-                <h2>{categorie}</h2>
+                    <Avatar>{Array.from(profilUser.username)[0].toUpperCase()}</Avatar>
+                {/*)}*/}
+                <h2>{location}</h2>
             </div>
         </div>
         </>

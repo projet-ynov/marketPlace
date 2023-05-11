@@ -12,7 +12,7 @@
     gap: 10px;
 }
 
-input {
+.search input {
     display: flex;
     justify-content: center;
     height: 35px;
@@ -20,12 +20,23 @@ input {
     background-color: lightgray;
 }
 
-input:focus  {
+.search input:focus  {
     background-color: white;
-
 }
-
 
 .profil {
     margin: 5px;
+}
+
+.add {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-left: 5px;
+}
+
+.add button {
+    background-color: #0B7697;
+    width: 100px;
+    color: white;
 }
