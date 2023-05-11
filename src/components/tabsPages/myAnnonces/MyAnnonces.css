@@ -21,6 +21,7 @@
     max-height: 140px;
     object-fit: cover;
     z-index: 0;
+    border-right: black 2px solid;
 }
 
 .flexMyAnnonces button {
@@ -29,6 +30,11 @@
     margin-right: 15px;
     background-color: #0B7697;
     color: white;
+}
+
+
+.price {
+    width: 50px;
 }
 
 .test {

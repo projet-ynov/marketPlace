@@ -25,7 +25,10 @@
 }
 
 .profil {
-    margin: 5px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-right: 10px;
 }
 
 .add {
@@ -39,4 +42,15 @@
     background-color: #0B7697;
     width: 100px;
     color: white;
+}
+
+.logout {
+    display: flex;
+    margin-right: 30px;
+    color: white;
+    align-items: center;
+}
+
+.contentHeaderR {
+    display: flex;
 }

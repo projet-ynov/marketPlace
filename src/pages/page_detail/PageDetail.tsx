@@ -1,4 +1,4 @@
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import NavBar from "../../components/navBar/NavBar.tsx";
@@ -12,6 +12,7 @@ function PageDetail() {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState<Article>();
     const { detailsId } = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -31,6 +32,15 @@ function PageDetail() {
     }, [data]);
 
 
+    const checkProfil = (id: string) => {
+        navigate(`/profil/${id}`)
+    }
+
+if(!data){
+    return null
+}
+
+
     return (
         <>
             <NavBar />
@@ -44,25 +54,25 @@ function PageDetail() {
                             prev={() => {/*prev*/ }}
                             className="tu"
                                 >
-                            {data?.images.map( (item, i) => <Item className="slideer" key={i} item={item} loading={loading}/> )}
+                            {data.images.map( (item, i) => <Item className="slideer" key={i} item={item} loading={loading}/> )}
                         </Carousel>
                     </div>
                     <div className="flex1-2">
                         <div className="flex1-2-top">
-                            <h2>{data?.title}</h2>
-                            <h2>{data?.price} €</h2>
+                            <h2>{data.title}</h2>
+                            <h2>{data.price} €</h2>
                         </div>
                         <div className="flex1-2-bottom">
                             <h3>Description</h3>
-                            <p>{data?.description}</p>
+                            <p>{data.description}</p>
                         </div>
                     </div>
                 </div>
 
                 <div className="content2">
                     <div className="flex2">
-                        <div className="flex2-top">
-                            <Avatar sx={{ height: '50px', width: '50px', bgcolor: deepOrange[500] }}>H</Avatar>
+                        <div className="flex2-top" onClick={() => checkProfil(data.profilUser._id)}>
+                            <Avatar sx={{ height: '50px', width: '50px', bgcolor: deepOrange[500] }}>{Array.from(data.profilUser.username)[0].toUpperCase()}</Avatar>
                             <p>Valentin</p>
                         </div>
                         <div className="flex2-bottom">

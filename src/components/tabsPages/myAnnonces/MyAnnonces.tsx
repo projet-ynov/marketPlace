@@ -2,8 +2,6 @@ import "./MyAnnonces.css"
 import {useEffect, useState} from "react";
 import axios, {AxiosRequestConfig} from "axios";
 import {useNavigate} from "react-router-dom";
-import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
 
 
 function MyAnnonces({ idUser }: { idUser: string }) {
@@ -47,7 +45,7 @@ function MyAnnonces({ idUser }: { idUser: string }) {
                                 <div className={"flexMyAnnonces"}  >
                                     <div className={"test"} onClick={() => handleClick(article._id)}><img src={article.images[0].image}/>
                                     <p className={"title"}>{article.title} </p>
-                                    <p>{article.price}</p>
+                                    <p className={"price"}>{article.price}</p>
                                     </div>
                                     <button type={"button"} >Edit</button>
                                     <button type={"button"}>Supprimer</button>

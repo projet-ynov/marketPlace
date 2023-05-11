@@ -11,7 +11,7 @@ import MyAnnonces from "../tabsPages/myAnnonces/MyAnnonces.tsx";
 function Tabs({ idUser }: { idUser: string }) {
     const [value, setValue] = useState('1');
 
-
+    console.log(idUser)
 
     const handleChange = (event: SyntheticEvent, newValue: string) => {
         setValue(newValue);
