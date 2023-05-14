@@ -24,13 +24,13 @@
     flex-wrap: wrap;
     justify-content: center;
     margin: 80px;
+    min-width: 400px;
 }
 
 .articles img {
-    height: auto;
+    height: 38%;
     width: 100%;
     max-height: 170px; /* Hauteur maximale pour l'élément img */
-    object-fit: cover;
     z-index: 0;
 }
 

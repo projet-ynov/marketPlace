@@ -1,7 +1,7 @@
-interface Article {
+interface Annonce {
     _id:string
     title: string;
-    images: image[],
+    images: ImageAnnonce[],
     description: string,
     price: number,
     date: Date,
@@ -15,14 +15,14 @@ interface Vendeur {
     _id: string,
     mail: string,
     username: string
-    image: string,
+    photo: string,
     city: string
 }
 
-interface image {
+interface ImageAnnonce {
     image: string
 }
 
 interface Articles {
-    data: Article[]
+    data: Annonce[]
 }

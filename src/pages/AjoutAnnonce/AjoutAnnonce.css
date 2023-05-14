@@ -1,0 +1,98 @@
+.total{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+.container2 {
+    display: flex;
+    border: #0B7697 3px solid;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 65vh;
+    width: 30vw;
+    min-height: 600px;
+    min-width: 410px;
+
+}
+
+.titre {
+    color: #0B7697;
+    text-align: center;
+    margin: 0 0 5px;
+}
+
+.titre h1{
+
+    margin: 0 0 5px;
+}
+
+.champFlex {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
+}
+
+.champMail {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 5px;
+}
+
+
+.champFlex p {
+    color: #0B7697;
+    margin: 10px;
+}
+
+
+.champFlex input {
+    background-color: white;
+    border-radius: 10px;
+    border: #0B7697 3px solid;
+    width: 100%;
+}
+
+.bouton2 {
+    background-color: white;
+    border-radius: 10px;
+    border: #0B7697 3px solid;
+    margin: 30px;
+    height: 50%;
+    width: 100%;
+
+}
+
+.champMail label{
+    width: 100%;
+}
+
+.imgMinia {
+    width: 100px;
+    height: 70px;
+}
+
+.imagePreview {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.descriptionInput {
+    height: 100px;
+    width: 380px;
+    resize: none;
+    border: #0B7697 3px solid;
+    border-radius: 10px;
+}

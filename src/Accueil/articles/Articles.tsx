@@ -8,7 +8,7 @@ import {useNavigate} from "react-router-dom";
 function Articles() {
 
 
-    const [data, setData] = useState<Article[]>([]);
+    const [data, setData] = useState<Annonce[]>([]);
     const navigate = useNavigate();
 
     useEffect(() => {

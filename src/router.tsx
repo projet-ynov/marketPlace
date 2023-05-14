@@ -5,13 +5,11 @@ import PageDetail from "./pages/page_detail/PageDetail.tsx";
 import Register from "./pages/Inscription/Register.tsx";
 import Login from "./pages/Login/Login.tsx";
 import Profil from "./pages/profil/Profil.tsx";
+import AjoutAnnonce from "./pages/AjoutAnnonce/AjoutAnnonce.tsx";
+import Edit from "./pages/Edit/Edit.tsx";
 
 
 const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <Articles/>
-    },
     {
         path: "/users",
         element: <NavBar/>
@@ -21,7 +19,7 @@ const router = createBrowserRouter([
         element: <PageDetail/>
     },
     {
-        path: "/register",
+        path: "/inscription",
         element: <Register/>
     },
     {
@@ -31,6 +29,18 @@ const router = createBrowserRouter([
     {
         path: "/profil/:id",
         element: <Profil/>
+    },
+    {
+        path: "/ajouter",
+        element: <AjoutAnnonce/>
+    },
+    {
+        path: "/edit",
+        element: <Edit/>
+    },
+    {
+        path: "/*",
+        element: <Articles/>,
     }
     ]);
 export default router;

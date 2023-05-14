@@ -54,3 +54,9 @@
 .contentHeaderR {
     display: flex;
 }
+
+.buttonLogs {
+    background-color: #0B7697;
+    width: 150px;
+    color: white;
+}

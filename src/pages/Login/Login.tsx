@@ -13,21 +13,17 @@ function Login() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-
-
         setEmail(email);
         setPassword(password);
 
-
-
         try {
-            const login =  await axios.post(`http://localhost:3000/login`, {
+            await axios.post(`http://localhost:3000/login`, {
                 "mail": email,
                 "password": password,
             }).then((response) => {
-                sessionStorage.setItem('id', JSON.stringify(response.data.message))
+                sessionStorage.setItem('token', JSON.stringify(response.data[0].message))
+                sessionStorage.setItem('idUser', JSON.stringify(response.data[1].id))
             });
-            console.log(login)
             navigate(`/`);
         }catch (e) {
             console.log(e)

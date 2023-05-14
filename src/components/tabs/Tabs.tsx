@@ -6,12 +6,13 @@ import TabPanel from "@mui/lab/TabPanel";
 import {SyntheticEvent, useState} from "react";
 import {useParams} from "react-router-dom";
 import MyAnnonces from "../tabsPages/myAnnonces/MyAnnonces.tsx";
+import MyFavorites from "../tabsPages/myFavorite/MyFavorites.tsx";
 
 
 function Tabs({ idUser }: { idUser: string }) {
     const [value, setValue] = useState('1');
 
-    console.log(idUser)
+
 
     const handleChange = (event: SyntheticEvent, newValue: string) => {
         setValue(newValue);
@@ -22,7 +23,7 @@ function Tabs({ idUser }: { idUser: string }) {
             <Box sx={{ width: '100%', typography: 'body1' }}>
                 <TabContext value={value}>
                     <Box>
-                        <TabList onChange={handleChange} aria-label="lab API tabs example">
+                        <TabList onChange={handleChange} >
                             <Tab label="Annonces" value="1" />
                             <Tab label="Favoris" value="2" />
                             <Tab label="Achetés" value="3" />
@@ -30,7 +31,7 @@ function Tabs({ idUser }: { idUser: string }) {
                         </TabList>
                     </Box>
                     <TabPanel value="1"><MyAnnonces idUser={idUser}/></TabPanel>
-                    <TabPanel value="2">Favoris</TabPanel>
+                    <TabPanel value="2"><MyFavorites idUser={idUser}/></TabPanel>
                     <TabPanel value="3">Achetés</TabPanel>
                     <TabPanel value="4">Settings</TabPanel>
                 </TabContext>

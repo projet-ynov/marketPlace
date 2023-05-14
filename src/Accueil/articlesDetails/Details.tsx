@@ -4,7 +4,7 @@ import "./details.css";
 import {Avatar} from "@mui/material";
 
 
-function Details(article: Article) {
+function Details(article: Annonce) {
 
 
     const {title, images, description, price, date, location, profilUser} = article;
@@ -15,9 +15,9 @@ function Details(article: Article) {
     return (
         <>
             <h2 className="dateAnnonce">{formattedDate}</h2>
-            <img src={images[0].image}/>
+            <img src={"data:image/png;base64," + images[0].image} />
             <div className="headDetails">
-                <h2 className="title">{title.toLowerCase()}</h2>
+                <h2 className="titleDetails">{title.toLowerCase()}</h2>
                 <h2>{price} €</h2>
             </div>
             <div className="divider"></div>

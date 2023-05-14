@@ -9,10 +9,13 @@ import {Avatar} from "@mui/material";
 function Profil() {
 
     const [user, setUser] = useState<Vendeur>();
+    const [idUser, setIdUser] = useState("");
     const {id} = useParams();
 
 
+
     useEffect(() => {
+
         const fetchData = async () => {
             const response = await axios.get<Vendeur>(`http://localhost:3000/user/${id}`);
             setUser(response.data);
@@ -20,6 +23,12 @@ function Profil() {
         fetchData();
     }, []);
 
+    const loadId = () => {
+        const idUserSession = sessionStorage.getItem("idUser");
+        if (idUserSession !== null) {
+            setIdUser(JSON.parse(idUserSession));
+        }
+    }
 
     if (!user) {
         return null
@@ -32,16 +41,17 @@ function Profil() {
                 <div className={"headerProfil"}>
                     <div className={"headerComponent"}>
                         <div className={"profilPic"}>
-                            {user.image != "" ? (
-                                <img src={user.image}/>
+                            {user.photo != "" ? (
+                                <img src={user.photo}/>
                             ) : (
-                                <Avatar style={{height: '152px',width: '152px'}} className={"iconUser"}>{Array.from(user.username)[0].toUpperCase()}</Avatar>
+                                <Avatar style={{height: '152px', width: '152px', fontSize: '50px'}}
+                                        className={"iconUser"}>{Array.from(user.username)[0].toUpperCase()}</Avatar>
                             )}
                         </div>
 
                         <div className={"profilInfo"}>
-                            <p>{user.username}</p>
-                            <p>{user.city}</p>
+                            <p>Nom : {user.username}</p>
+                            <p>Ville : {user.city}</p>
                         </div>
                     </div>
                     <div className={"baseLine"}></div>
