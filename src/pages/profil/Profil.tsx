@@ -15,7 +15,6 @@ function Profil() {
 
 
     useEffect(() => {
-
         const fetchData = async () => {
             const response = await axios.get<Vendeur>(`http://localhost:3000/user/${id}`);
             setUser(response.data);
@@ -62,7 +61,6 @@ function Profil() {
             </div>
         </>
     );
-
 }
 
 export default Profil;

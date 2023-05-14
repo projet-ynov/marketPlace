@@ -9,11 +9,12 @@ import Carousel from 'react-material-ui-carousel'
 import {Paper} from "@mui/material";
 import {de} from "date-fns/locale";
 
+
 function PageDetail() {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState<Annonce>();
-    const [favorites, setFavorites] = useState(true);
-    const [idUser, setIdUser] = useState();
+    const [favorites, setFavorites] = useState(false);
+
     const {detailsId} = useParams();
     const navigate = useNavigate();
 
@@ -38,32 +39,32 @@ function PageDetail() {
 
 
     useEffect(() => {
-        if (data) {
-            console.log("data._id:", data._id);
-            console.log("idUser:", detailsId);
-
             const fetchData = async () => {
+
                 try {
-                    await loadId();
-                    const response = await axios.post(`http://localhost:3000/inFavorite`, {
-                        idUser: idUser,
-                        idAnnonce: detailsId
-                    });
-                    setFavorites(response.data)
-                } catch (error) {
+                    let idUserProfil = ""
+                    const idUserSession = sessionStorage.getItem("idUser");
+                    if (idUserSession !== null) {
+                        idUserProfil = JSON.parse(idUserSession);
+                    }
+                    if (idUserProfil) {
+                        const response = await axios.get(`http://localhost:3000/inFavorite`, {params:{
+                            idUser: idUserProfil,
+                            idAnnonce: detailsId
+                        }});
+                        setFavorites(response.data)
+                    }
+                } catch
+                    (error) {
                     console.error("Error:", error);
                 }
-            };
-            fetchData();
-        }
-    }, [data, detailsId]);
 
-    const loadId = () => {
-        const idUserSession = sessionStorage.getItem("idUser");
-        if (idUserSession !== null) {
-            setIdUser(JSON.parse(idUserSession));
-        }
-    }
+
+            };
+        fetchData();
+    }, [detailsId]);
+
+
 
     const checkProfil = (id: string) => {
         navigate(`/profil/${id}`)
@@ -71,6 +72,22 @@ function PageDetail() {
 
     if (!data) {
         return null
+    }
+
+    const handleAddFav = (idAnnonce: string) => {
+        let token = sessionStorage.getItem("token");
+        if (token !== null) {
+            token = JSON.parse(token)
+
+            axios.post(`http://localhost:3000/addFavoris/${idAnnonce}`, {},
+                {
+                    headers: {
+                        Authorization: token,
+                    }
+                });
+            window.location.reload()
+
+        }
     }
 
 
@@ -123,10 +140,13 @@ function PageDetail() {
                     <div className="buttonAchat">
                         <button type="submit">Acheter</button>
                         {favorites ? (<button type="submit" className="fav">Remove favorite</button>) : (
-                            <button type="submit" className="fav">Favorite</button>)}
+                            <button type="button" className="fav"
+                                    onClick={() => handleAddFav(data?._id)}>Favorite</button>)}
                     </div>
                 </div>
             </div>
+
+
         </>
     );
 }
@@ -136,7 +156,7 @@ function Item(props: any) {
     return (
         <Paper>
 
-            <img  src={"data:image/png;base64," + props.item.image}/>
+            <img src={"data:image/png;base64," + props.item.image}/>
 
         </Paper>
     );

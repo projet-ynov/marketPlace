@@ -144,7 +144,6 @@ function Edit() {
                                 accept="image/*"
                                 multiple
                                 onChange={onFileSelect}
-
                             />
                         </div>
                         <div className={"imagePreview"}>
