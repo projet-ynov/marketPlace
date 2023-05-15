@@ -1,4 +1,4 @@
-import './navbar.css'
+import './Navbar.css'
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import {Avatar, IconButton} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';

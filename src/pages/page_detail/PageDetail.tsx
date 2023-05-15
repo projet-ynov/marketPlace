@@ -2,7 +2,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import NavBar from "../../components/navBar/NavBar.tsx";
-import "./pageDetail.css";
+import "./PageDetail.css";
 import {Avatar} from "@mui/material";
 import {deepOrange} from '@mui/material/colors';
 import Carousel from 'react-material-ui-carousel'

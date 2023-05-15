@@ -74,18 +74,17 @@ function Edit() {
         if (token !== null) {
             token = JSON.parse(token)
             try {
-                apiClient.post(`/updateAnnonce`, {
-                        "id": annonce?._id,
+                apiClient.post(`/updateAnnonce/${annonce?._id}`, {
                         "title": title,
                         "description": description,
                         "price": price,
                         "images": image
                     },
-                    //     {
-                    //     headers: {
-                    //         Authorization: token,
-                    //     }
-                    // }
+                        {
+                        headers: {
+                            Authorization: token,
+                        }
+                    }
                 ).then(() => {
                     sessionStorage.removeItem('annonce')
                 })
