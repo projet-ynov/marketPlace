@@ -1,0 +1,107 @@
+.conteneurMessage {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 88vh;
+    width: 100vw;
+    margin: 10px auto;
+}
+
+.messagerie {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+    border: 3px solid #0B7697;
+    border-radius: 20px;
+    height: 100%;
+    width: 80%;
+    background-color: lightgray;
+
+}
+
+.infoMessage {
+    color: black;
+}
+
+.headerMessage {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    height: 10%;
+    width: 80%;
+    border: 3px solid #0B7697;
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: white;
+
+}
+
+.imgMessageHeader {
+    height: 100%;
+}
+
+.messageContainer {
+    height: 80%;
+    width: 90%;
+    border: 3px solid #0B7697;
+    border-radius: 20px;
+    background-color: white;
+    overflow: hidden;
+}
+
+.messageBox {
+    overflow-y: auto;
+    height: 90%;
+    width: 98%;
+    margin: 0 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.messageBox::-webkit-scrollbar {
+    width: 0.5em; /* Définir une largeur pour la barre de défilement */
+    background-color: transparent; /* Définir la couleur de fond de la barre de défilement */
+}
+
+.messageBox::-webkit-scrollbar-thumb {
+    background-color: transparent; /* Définir la couleur de la poignée de la barre de défilement */
+}
+
+.message {
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 10px
+}
+
+.message.right {
+    display: flex;
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.message.left {
+    align-self: flex-start;
+
+}
+
+.imageMessage {
+    height: 100%;
+    width: 50px;
+    border: 2px black solid;
+    border-radius: 180px;
+}
+
+.sendMessage {
+
+    height: 10%;
+    width: 100%;
+    background-color: black;
+}

@@ -6,17 +6,18 @@ interface Annonce {
     price: number,
     date: Date,
     location: string,
-    profilUser: Vendeur
+    profilUser: User
 }
 
 
 
-interface Vendeur {
+interface User {
     _id: string,
     mail: string,
     username: string
     photo: string,
-    city: string
+    city: string,
+    password: string
 }
 
 interface ImageAnnonce {

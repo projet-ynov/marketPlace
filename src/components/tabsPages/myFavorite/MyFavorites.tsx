@@ -32,7 +32,23 @@ function MyFavorites({ idUser }: { idUser: string }) {
         navigate(`/details/${detailsId}`);
     };
 
+    const handleDelFav = (idAnnonce: string) => {
+        let token = sessionStorage.getItem("token");
+        if (token !== null) {
+            token = JSON.parse(token)
 
+            axios.put(`http://localhost:3000/removeFav`, {
+                    idAnnonce:idAnnonce
+                },
+                {
+                    headers: {
+                        Authorization: token,
+                    }
+                });
+            window.location.reload()
+
+        }
+    }
 
     return (
         <>
@@ -47,7 +63,7 @@ function MyFavorites({ idUser }: { idUser: string }) {
                                     <p className={"title"}>{article.title} </p>
                                     <p className={"price"}>{article.price}</p>
                                 </div>
-                                <button type={"button"}>Supprimer</button>
+                                <button type={"button"} onClick={() => handleDelFav(article._id)}>Supprimer</button>
                             </div>
                         ))}
                     </div>

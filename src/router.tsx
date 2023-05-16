@@ -7,6 +7,7 @@ import Login from "./pages/Login/Login.tsx";
 import Profil from "./pages/profil/Profil.tsx";
 import AjoutAnnonce from "./pages/AjoutAnnonce/AjoutAnnonce.tsx";
 import Edit from "./pages/Edit/Edit.tsx";
+import Messages from "./pages/Messages/Messages.tsx";
 
 
 const router = createBrowserRouter([
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
     {
         path: "/edit",
         element: <Edit/>
+    },
+    {
+        path: "/msg",
+        element: <Messages/>,
     },
     {
         path: "/*",

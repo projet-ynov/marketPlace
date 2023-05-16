@@ -11,7 +11,7 @@ function AjouterAnnonce() {
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState(0);
     const [image, setImage] = useState<ImageAnnonce[]>([]);
-    const [user, setUser] = useState<Vendeur>();
+    const [user, setUser] = useState<User>();
     const navigate = useNavigate();
 
 
@@ -20,7 +20,7 @@ function AjouterAnnonce() {
         if (idUser !== null) {
             idUser = JSON.parse(idUser)
             const fetchData = async () => {
-                const response = await axios.get<Vendeur>(`http://localhost:3000/user/${idUser}`);
+                const response = await axios.get<User>(`http://localhost:3000/user/${idUser}`);
                 setUser(response.data);
             };
 

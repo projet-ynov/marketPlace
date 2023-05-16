@@ -74,7 +74,7 @@ function Edit() {
         if (token !== null) {
             token = JSON.parse(token)
             try {
-                apiClient.post(`/updateAnnonce/${annonce?._id}`, {
+                apiClient.post(`/updateAnnonceFront/${annonce?._id}`, {
                         "title": title,
                         "description": description,
                         "price": price,

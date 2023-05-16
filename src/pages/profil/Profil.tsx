@@ -8,7 +8,7 @@ import {Avatar} from "@mui/material";
 
 function Profil() {
 
-    const [user, setUser] = useState<Vendeur>();
+    const [user, setUser] = useState<User>();
     const [idUser, setIdUser] = useState("");
     const {id} = useParams();
 
@@ -16,7 +16,7 @@ function Profil() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.get<Vendeur>(`http://localhost:3000/user/${id}`);
+            const response = await axios.get<User>(`http://localhost:3000/user/${id}`);
             setUser(response.data);
         };
         fetchData();
@@ -41,7 +41,7 @@ function Profil() {
                     <div className={"headerComponent"}>
                         <div className={"profilPic"}>
                             {user.photo != "" ? (
-                                <img src={user.photo}/>
+                                <img src={"data:image/png;base64," + user.photo}/>
                             ) : (
                                 <Avatar style={{height: '152px', width: '152px', fontSize: '50px'}}
                                         className={"iconUser"}>{Array.from(user.username)[0].toUpperCase()}</Avatar>

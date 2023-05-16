@@ -9,6 +9,7 @@ function Articles() {
 
 
     const [data, setData] = useState<Annonce[]>([]);
+    const [textTypetextType, setTexte] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -20,23 +21,32 @@ function Articles() {
         };
 
         fetchData();
-    },[]);
+    }, []);
 
     const handleClick = (detailsId: string) => {
         navigate(`/details/${detailsId}`);
     };
 
+
+    const handleSearch = (data) => {
+        if (data[0].data !== undefined) {
+            setData(data[0].data);
+        } else {
+            setData(data)
+        }
+    };
+
+
     return (
         <>
-            <NavBar/>
+            <NavBar handleSearch={handleSearch} dataRes={data}/>
             <div className="container">
                 {data.map((article, index) => (
-                    <div key={index} className="articles" onClick={() => handleClick(article._id)} >
+                    <div key={index} className="articles" onClick={() => handleClick(article._id)}>
                         <Details{...article}/>
                     </div>
                 ))}
             </div>
-
         </>
     )
 }

@@ -7,6 +7,7 @@ import {SyntheticEvent, useState} from "react";
 import {useParams} from "react-router-dom";
 import MyAnnonces from "../tabsPages/myAnnonces/MyAnnonces.tsx";
 import MyFavorites from "../tabsPages/myFavorite/MyFavorites.tsx";
+import Settings from "../tabsPages/Settings/Settings.tsx";
 
 
 function Tabs({ idUser }: { idUser: string }) {
@@ -32,8 +33,8 @@ function Tabs({ idUser }: { idUser: string }) {
                     </Box>
                     <TabPanel value="1"><MyAnnonces idUser={idUser}/></TabPanel>
                     <TabPanel value="2"><MyFavorites idUser={idUser}/></TabPanel>
-                    <TabPanel value="3">Achetés</TabPanel>
-                    <TabPanel value="4">Settings</TabPanel>
+                    <TabPanel value="3"></TabPanel>
+                    <TabPanel value="4"><Settings/></TabPanel>
                 </TabContext>
             </Box>
         </>

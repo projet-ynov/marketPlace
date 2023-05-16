@@ -36,7 +36,7 @@ function Register() {
 
 
             try {
-                 await axios.post(`http://localhost:3000/signin/`, {
+                 await axios.post(`http://localhost:3000/signin`, {
                     "username": pseudo,
                     "password": password,
                     "mail": email,

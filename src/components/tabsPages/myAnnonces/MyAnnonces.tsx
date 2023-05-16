@@ -23,12 +23,7 @@ function MyAnnonces({idUser}: { idUser: string }) {
         if (token !== null) {
             token = JSON.parse(token)
             const fetchData = async () => {
-                const response = await axios.get<Annonce[]>(`http://localhost:3000/myAnnonces/${idUser}`,
-                    {
-                        headers: {
-                            Authorization: token,
-                        }
-                    });
+                const response = await axios.get<Annonce[]>(`http://localhost:3000/myAnnonces/${idUser}`);
                 console.log(response)
                 setData(response.data);
                 setLoading(false)
@@ -64,7 +59,6 @@ function MyAnnonces({idUser}: { idUser: string }) {
             sessionStorage.setItem('annonce', JSON.stringify(annonce))
             navigate(`/edit`);
         } else {
-            console.log("yuhnji")
             sessionStorage.removeItem('annonce');
             sessionStorage.setItem('annonce', JSON.stringify(annonce))
             navigate(`/edit`);
@@ -110,7 +104,7 @@ function MyAnnonces({idUser}: { idUser: string }) {
                                 <div className={"test"} onClick={() => handleClick(article._id)}><img
                                     src={"data:image/png;base64," + article.images[0].image}/>
                                     <p className={"title"}>{article.title} </p>
-                                    <p className={"price"}>{article.price}</p>
+                                    <p className={"price"}>{article.price} €</p>
                                 </div>
                                 {isConnected ? (
                                     (<div>

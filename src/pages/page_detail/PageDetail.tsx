@@ -78,8 +78,26 @@ function PageDetail() {
         let token = sessionStorage.getItem("token");
         if (token !== null) {
             token = JSON.parse(token)
-
+console.log(idAnnonce)
             axios.post(`http://localhost:3000/addFavoris/${idAnnonce}`, {},
+                {
+                    headers: {
+                        Authorization: token,
+                    }
+                });
+            window.location.reload()
+
+        }
+    }
+
+    const handleDelFav = (idAnnonce: string) => {
+        let token = sessionStorage.getItem("token");
+        if (token !== null) {
+            token = JSON.parse(token)
+
+            axios.put(`http://localhost:3000/removeFav`, {
+                idAnnonce:idAnnonce
+                },
                 {
                     headers: {
                         Authorization: token,
@@ -139,7 +157,7 @@ function PageDetail() {
                     </div>
                     <div className="buttonAchat">
                         <button type="submit">Acheter</button>
-                        {favorites ? (<button type="submit" className="fav">Remove favorite</button>) : (
+                        {favorites ? (<button type="submit" className="fav" onClick={() => handleDelFav(data?._id)}>Remove favorite</button>) : (
                             <button type="button" className="fav"
                                     onClick={() => handleAddFav(data?._id)}>Favorite</button>)}
                     </div>
