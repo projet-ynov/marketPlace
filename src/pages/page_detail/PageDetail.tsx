@@ -7,11 +7,12 @@ import {Avatar} from "@mui/material";
 import {deepOrange} from '@mui/material/colors';
 import Carousel from 'react-material-ui-carousel'
 import {Paper} from "@mui/material";
-import {de} from "date-fns/locale";
+
 
 
 function PageDetail() {
     const [loading, setLoading] = useState(true);
+    const [role, setRole] = useState('');
     const [data, setData] = useState<Annonce>();
     const [favorites, setFavorites] = useState(false);
 
@@ -23,6 +24,7 @@ function PageDetail() {
         const fetchData = async () => {
             const article = await axios(`http://localhost:3000/annonce/${detailsId}`);
             setData(article.data);
+
         };
         fetchData();
     }, []);
@@ -39,32 +41,42 @@ function PageDetail() {
 
 
     useEffect(() => {
-            const fetchData = async () => {
-
-                try {
-                    let idUserProfil = ""
-                    const idUserSession = sessionStorage.getItem("idUser");
-                    if (idUserSession !== null) {
-                        idUserProfil = JSON.parse(idUserSession);
-                    }
-                    if (idUserProfil) {
-                        const response = await axios.get(`http://localhost:3000/inFavorite`, {params:{
+        const fetchData = async () => {
+            try {
+                let idUserProfil = ""
+                const idUserSession = sessionStorage.getItem("idUser");
+                if (idUserSession !== null) {
+                    idUserProfil = JSON.parse(idUserSession);
+                }
+                if (idUserProfil) {
+                    const response = await axios.get(`http://localhost:3000/inFavorite`, {
+                        params: {
                             idUser: idUserProfil,
                             idAnnonce: detailsId
-                        }});
-                        setFavorites(response.data)
-                    }
-                } catch
-                    (error) {
-                    console.error("Error:", error);
+                        }
+                    });
+                    setFavorites(response.data)
                 }
-
-
-            };
+            } catch
+                (error) {
+                console.error("Error:", error);
+            }
+        };
         fetchData();
     }, [detailsId]);
 
 
+    useEffect(()=>{
+        let idUser = sessionStorage.getItem('idUser')
+        if(idUser && data){
+            idUser = JSON.parse(idUser)
+            if(idUser === data?.profilUser._id){
+                setRole("vendeur")
+            }else{
+                setRole("acheteur")
+            }
+        }
+    },[data])
 
     const checkProfil = (id: string) => {
         navigate(`/profil/${id}`)
@@ -78,7 +90,7 @@ function PageDetail() {
         let token = sessionStorage.getItem("token");
         if (token !== null) {
             token = JSON.parse(token)
-console.log(idAnnonce)
+            console.log(idAnnonce)
             axios.post(`http://localhost:3000/addFavoris/${idAnnonce}`, {},
                 {
                     headers: {
@@ -96,7 +108,7 @@ console.log(idAnnonce)
             token = JSON.parse(token)
 
             axios.put(`http://localhost:3000/removeFav`, {
-                idAnnonce:idAnnonce
+                    idAnnonce: idAnnonce
                 },
                 {
                     headers: {
@@ -106,6 +118,10 @@ console.log(idAnnonce)
             window.location.reload()
 
         }
+    }
+
+    const handleMessage = (idAnnonce: string) => {
+        navigate(`/messages/${idAnnonce}/${role}`)
     }
 
 
@@ -152,12 +168,14 @@ console.log(idAnnonce)
                         </div>
                         <div className="flex2-bottom">
                             <p>{data.location}</p>
-                            <button type="submit">Message</button>
+                            <button type="button" onClick={() =>handleMessage(data?._id)}>Message</button>
                         </div>
                     </div>
                     <div className="buttonAchat">
                         <button type="submit">Acheter</button>
-                        {favorites ? (<button type="submit" className="fav" onClick={() => handleDelFav(data?._id)}>Remove favorite</button>) : (
+                        {favorites ? (
+                            <button type="submit" className="fav" onClick={() => handleDelFav(data?._id)}>Remove
+                                favorite</button>) : (
                             <button type="button" className="fav"
                                     onClick={() => handleAddFav(data?._id)}>Favorite</button>)}
                     </div>

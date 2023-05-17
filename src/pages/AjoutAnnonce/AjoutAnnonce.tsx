@@ -54,12 +54,11 @@ function AjouterAnnonce() {
                     }, 500)
                 }
             }
-        } else {
-
         }
     }
 
-    const handlePublication = async (event) => {
+
+    const handlePublication = async (event: any) => {
         event.preventDefault();
         setTitle(title);
         setPrice(price);

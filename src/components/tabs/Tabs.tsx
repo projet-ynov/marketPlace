@@ -8,6 +8,7 @@ import {useParams} from "react-router-dom";
 import MyAnnonces from "../tabsPages/myAnnonces/MyAnnonces.tsx";
 import MyFavorites from "../tabsPages/myFavorite/MyFavorites.tsx";
 import Settings from "../tabsPages/Settings/Settings.tsx";
+import Discussions from "../tabsPages/Discussions/Discussions.tsx";
 
 
 function Tabs({ idUser }: { idUser: string }) {
@@ -28,13 +29,15 @@ function Tabs({ idUser }: { idUser: string }) {
                             <Tab label="Annonces" value="1" />
                             <Tab label="Favoris" value="2" />
                             <Tab label="Achetés" value="3" />
-                            <Tab label="Settings" value="4" />
+                            <Tab label="Discussions" value="4" />
+                            <Tab label="Settings" value="5" />
                         </TabList>
                     </Box>
                     <TabPanel value="1"><MyAnnonces idUser={idUser}/></TabPanel>
                     <TabPanel value="2"><MyFavorites idUser={idUser}/></TabPanel>
                     <TabPanel value="3"></TabPanel>
-                    <TabPanel value="4"><Settings/></TabPanel>
+                    <TabPanel value="4"><Discussions/></TabPanel>
+                    <TabPanel value="5"><Settings/></TabPanel>
                 </TabContext>
             </Box>
         </>

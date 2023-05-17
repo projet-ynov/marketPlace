@@ -7,15 +7,25 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import {useEffect, useState} from "react";
 import HomeIcon from '@mui/icons-material/Home';
 import axios from "axios";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import {io} from "socket.io-client";
 
-function NavBar({handleSearch ,dataRes}) {
+function NavBar({handleSearch, dataRes}) {
     const navigate = useNavigate();
     const [image, setImage] = useState('')
     const [title, setTitle] = useState('')
     const [city, setCity] = useState('')
+    const [messageSignalement, setMessageSignalement] = useState('')
+    const [titleSignalement, setTitleSignalement] = useState('')
     const [isConnected, setConnected] = useState(Boolean(sessionStorage.getItem('token')));
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
+    const [openModal, setOpenModal] = useState(false);
+    const [socket, setSocket] = useState<any>()
 
     useEffect(() => {
         let token = sessionStorage.getItem("token");
@@ -36,6 +46,16 @@ function NavBar({handleSearch ,dataRes}) {
         }
     }, [image]);
 
+
+    useEffect(() => {
+
+        const socket = io('http://localhost:3000');
+        setSocket(socket);
+
+        return () => {
+            socket.disconnect();
+        };
+    }, []);
 
     const handleSearcher = async () => {
 
@@ -89,7 +109,6 @@ function NavBar({handleSearch ,dataRes}) {
     }
 
 
-
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -98,12 +117,12 @@ function NavBar({handleSearch ,dataRes}) {
     };
 
     const handleSortDesc = () => {
-        const sorted:Annonce[] = [...dataRes].sort((a,b) => b.price - a.price)
+        const sorted: Annonce[] = [...dataRes].sort((a, b) => b.price - a.price)
         handleSearch(sorted)
     }
 
     const handleSortAsc = () => {
-        const sorted:Annonce[] = [...dataRes].sort((a,b) => a.price - b.price)
+        const sorted: Annonce[] = [...dataRes].sort((a, b) => a.price - b.price)
         handleSearch(sorted)
     }
 
@@ -117,12 +136,49 @@ function NavBar({handleSearch ,dataRes}) {
         const sorted: Annonce[] = [...dataRes].sort((a, b) => b.title.localeCompare(a.title));
         handleSearch(sorted)
     }
+
+    const handleSignalerOpen = () => {
+        setOpenModal(true);
+    };
+
+    const handleSignalerClose = () => {
+        setOpenModal(false);
+    };
+
+    const handleSignalerSend = () => {
+        let userId = sessionStorage.getItem('idUser');
+        const date = new Date();
+
+        if (messageSignalement && titleSignalement && userId && socket) {
+            userId = JSON.parse(userId)
+            const description = messageSignalement
+            const title = titleSignalement
+            const message = {
+                title,
+                description,
+                userId,
+                date,
+            };
+
+            console.log('Emitting ticket message');
+            socket.emit('ticket', message);
+
+            setTitleSignalement('');
+            setMessageSignalement('');
+            setOpenModal(false)
+        }
+
+
+    };
+
     return (
         <>
             <div className="header">
                 {isConnected ? (
                     <div className="add">
-                        <button type={"button"} onClick={navigateAjout}>Ajouter</button>
+                        <button type={"button"} onClick={navigateAjout} className={"ajouter"}>Ajouter</button>
+
+                        <button type={"button"} onClick={handleSignalerOpen} className={"signaler"}>Signaler</button>
                     </div>) : ''}
                 <div className="search">
                     <IconButton onClick={() => navigateHome()}>
@@ -185,7 +241,39 @@ function NavBar({handleSearch ,dataRes}) {
                     </div>
                 )}
             </div>
+            <Dialog
+                open={openModal}
+                onClose={handleSignalerClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
 
+            >
+                <DialogTitle id="alert-dialog-title" className={"titleSignalement"}>
+                    {"Une information à signaler ?"}
+                </DialogTitle>
+                <DialogContent>
+
+                        <div className={"containerSignalement"}>
+                            <label htmlFor="title">Titre:</label>
+                            <input type="text" name="title" value={titleSignalement} onChange={(event) =>
+                                setTitleSignalement(event.target.value)
+                            } required={true}/>
+
+                            <label htmlFor="description">Message:</label>
+                            <textarea  name="description" value={messageSignalement} onChange={(event) =>
+                                setMessageSignalement(event.target.value)
+                            } required={true} className={"messageSignalement"}/>
+                        </div>
+
+                </DialogContent>
+
+                <DialogActions>
+                    <Button onClick={handleSignalerClose}>Annuler</Button>
+                    <Button onClick={handleSignalerSend}>
+                        Valider
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     )
 }

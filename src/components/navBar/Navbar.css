@@ -35,10 +35,11 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin-left: 5px;
+    width: 13%;
+    gap: 10px;
 }
 
-.add button {
+.ajouter {
     background-color: #0B7697;
     width: 100px;
     color: white;
@@ -59,4 +60,24 @@
     background-color: #0B7697;
     width: 150px;
     color: white;
+}
+
+.signaler {
+    background-color: orange;
+}
+
+.containerSignalement {
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+}
+
+.messageSignalement {
+    height: 50%;
+    resize: none;
+}
+
+.titleSignalement {
+    width: 400px;
+    text-align: center;
 }

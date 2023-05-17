@@ -25,7 +25,8 @@ const router = createBrowserRouter([
     },
     {
         path: "/login",
-        element: <Login/>
+        element: <Login/>,
+
     },
     {
         path: "/profil/:id",
@@ -40,7 +41,7 @@ const router = createBrowserRouter([
         element: <Edit/>
     },
     {
-        path: "/msg",
+        path: "/messages/:id/:role",
         element: <Messages/>,
     },
     {
