@@ -57,3 +57,9 @@ interface Messages {
     user: string,
     message: string
 }
+
+
+interface AnnoncesVendu {
+    user: User,
+    annonce: Annonce
+}

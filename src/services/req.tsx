@@ -55,3 +55,32 @@ export async function getDiscussions(): Promise<Discussions[]> {
 }
 
 
+export async function getVendu():Promise<AnnoncesVendu[] | null> {
+    let token = sessionStorage.getItem("token");
+    if (token !== null) {
+        token = JSON.parse(token)
+        const response = await axios.get<AnnoncesVendu[]>(`http://localhost:3000/buy/getVendu`,
+                {
+                    headers: {
+                        Authorization: token
+                    }
+                });
+        return response.data
+    }
+    return null
+}
+
+export async function getAcheter():Promise<AnnoncesVendu[] | null> {
+    let token = sessionStorage.getItem("token");
+    if (token !== null) {
+        token = JSON.parse(token)
+           const response = await  axios.get<AnnoncesVendu[]>(`http://localhost:3000/buy/getBought`,
+                {
+                    headers: {
+                        Authorization: token
+                    }
+                });
+        return response.data
+    }
+    return null
+}

@@ -15,7 +15,7 @@
     width: 300px;
 }
 
-.test img {
+.divAnnonceListe img {
     height: auto;
     width: 140px;
     max-height: 140px;
@@ -34,10 +34,10 @@
 
 
 .price {
-    width: 50px;
+    width: 100px;
 }
 
-.test {
+.divAnnonceListe {
     display: flex;
     height: 100%;
     justify-content: space-between;

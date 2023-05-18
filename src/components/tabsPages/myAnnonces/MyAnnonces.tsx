@@ -99,7 +99,7 @@ function MyAnnonces({idUser}: { idUser: string }) {
                     <div className={"containerMyAnnonces"}>
                         {articles.map((article) => (
                             <div className={"flexMyAnnonces"}>
-                                <div className={"test"} onClick={() => handleClick(article._id)}><img
+                                <div className={"divAnnonceListe"} onClick={() => handleClick(article._id)}><img
                                     src={"data:image/png;base64," + article.images[0].image}/>
                                     <p className={"title"}>{article.title} </p>
                                     <p className={"price"}>{article.price} €</p>

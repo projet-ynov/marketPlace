@@ -8,6 +8,8 @@ import Profil from "./pages/profil/Profil.tsx";
 import AjoutAnnonce from "./pages/AjoutAnnonce/AjoutAnnonce.tsx";
 import Edit from "./pages/Edit/Edit.tsx";
 import Messages from "./pages/Messages/Messages.tsx";
+import AchatForm from "./pages/AchatForm/AchatForm.tsx";
+import Achat from "./pages/Achat/Achat.tsx";
 
 
 const router = createBrowserRouter([
@@ -43,6 +45,14 @@ const router = createBrowserRouter([
     {
         path: "/messages/:id/:role",
         element: <Messages/>,
+    },
+    {
+        path: "/achatForm",
+        element: <AchatForm/>
+    },
+    {
+        path: "/achat/:idAnnonce/:montant",
+        element: <Achat/>
     },
     {
         path: "/*",

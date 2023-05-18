@@ -7,6 +7,8 @@ import {Avatar} from "@mui/material";
 import {deepOrange} from '@mui/material/colors';
 import Carousel from 'react-material-ui-carousel'
 import {Paper} from "@mui/material";
+import Achat from "../Achat/Achat.tsx";
+import NavBarProfil from "../../components/navBarProfil/NavBarProfil.tsx";
 
 
 
@@ -124,10 +126,13 @@ function PageDetail() {
         navigate(`/messages/${idAnnonce}/${role}`)
     }
 
+    const handleAchat = (montant: number,idAnnonce: string) => {
+        navigate(`/achat/${idAnnonce}/${montant}`)
+    }
 
     return (
         <>
-            <NavBar/>
+            <NavBarProfil/>
             <div className="container1">
                 <div className="flex1">
                     <div className="flex1-1">
@@ -172,7 +177,9 @@ function PageDetail() {
                         </div>
                     </div>
                     <div className="buttonAchat">
-                        <button type="submit">Acheter</button>
+                        <button type="button" onClick={() => {
+                            handleAchat(data?.price,data?._id)
+                        }}>Acheter</button>
                         {favorites ? (
                             <button type="submit" className="fav" onClick={() => handleDelFav(data?._id)}>Remove
                                 favorite</button>) : (
