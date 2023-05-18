@@ -1,18 +1,12 @@
 import "../myAnnonces/MyAnnonces.css"
 import {useEffect, useState} from "react";
-import axios, {AxiosRequestConfig} from "axios";
-import {useNavigate} from "react-router-dom";
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogTitle from '@mui/material/DialogTitle';
-import {getAcheter, getVendu} from "../../../services/req.tsx";
+import {getVendu} from "../../../services/req.tsx";
 
 function Vendu() {
 
-    const [articles, setData] = useState<Annonce[]>([]);
+    const [articles, setData] = useState<AnnoncesVendu[]>([]);
     const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
+
 
 
     useEffect(() => {
@@ -39,9 +33,10 @@ function Vendu() {
                         {articles.map((article) => (
                             <div className={"flexMyAnnonces"}>
                                 <div className={"divAnnonceListe"} ><img
-                                    src={"data:image/png;base64," + article.images[0].image}/>
-                                    <p className={"title"}>{article.title} </p>
-                                    <p className={"price"}>{article.price} €</p>
+                                    src={"data:image/png;base64," + article.annonce.images[0].image}/>
+                                    <p className={"title"}>{article.annonce.title} </p>
+                                    <p className={"price"}>{article.annonce.price} €</p>
+                                    <p className={"title"}>acheteur: {article.user.username}</p>
                                 </div>
 
 

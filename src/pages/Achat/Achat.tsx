@@ -6,7 +6,7 @@ import {Elements} from "@stripe/react-stripe-js";
 import "./Achat.css"
 import {useParams} from "react-router-dom";
 function Achat() {
-    const [stripePromise, setStripePromise] = useState<Promise<Stripe | null>>(null);
+    const [stripePromise, setStripePromise] = useState<Promise<Stripe | null>>();
     const [clientSecret, setClientSecret] = useState<string | null >();
     const {idAnnonce} = useParams()
     const {montant} = useParams()

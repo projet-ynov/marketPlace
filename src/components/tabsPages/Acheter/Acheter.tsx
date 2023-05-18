@@ -1,13 +1,12 @@
 import "../myAnnonces/MyAnnonces.css"
 import {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
 import {getAcheter} from "../../../services/req.tsx";
 
 function Acheter() {
 
     const [articles, setData] = useState<AnnoncesVendu[]>([]);
     const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
+
 
 
     useEffect(() => {

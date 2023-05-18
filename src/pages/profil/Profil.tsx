@@ -9,7 +9,6 @@ import {Avatar} from "@mui/material";
 function Profil() {
 
     const [user, setUser] = useState<User>();
-    const [idUser, setIdUser] = useState("");
     const {id} = useParams();
 
 
@@ -22,12 +21,7 @@ function Profil() {
         fetchData();
     }, []);
 
-    const loadId = () => {
-        const idUserSession = sessionStorage.getItem("idUser");
-        if (idUserSession !== null) {
-            setIdUser(JSON.parse(idUserSession));
-        }
-    }
+
 
     if (!user) {
         return null

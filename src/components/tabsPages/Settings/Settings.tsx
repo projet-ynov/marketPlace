@@ -1,10 +1,9 @@
 import "./Settings.css";
 import {ChangeEvent, useEffect, useState} from "react";
-import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import {getUserInfo, updateUserInfo} from "../../../services/req.tsx";
+import {onFileSelect} from "../../functions/functions.tsx";
 
 function Settings() {
-
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [pseudo, setPseudo] = useState('');
@@ -15,72 +14,37 @@ function Settings() {
     const [emailExist, setEmailExist] = useState(false);
     const [usernameExist, setUsernameExist] = useState(false);
     const [user, setUser] = useState<User>()
-    const navigate = useNavigate();
-
 
     useEffect(() => {
-        let token = sessionStorage.getItem("token");
-        if (token !== null) {
-            token = JSON.parse(token)
-            const fetchData = async () => {
-                const response = await axios.get<User>(`http://localhost:3000/userInfo`, {
-                    headers: {
-                        Authorization: token
-                    }
-                });
-                setUser(response.data);
-            };
-
-            fetchData();
-        }
+        const fetchData = async () => {
+            const response = await getUserInfo()
+            setUser(response);
+        };
+        fetchData();
     }, []);
 
     useEffect(() => {
-
         if (user) {
             setEmail(user.mail)
             setPseudo(user.username)
             setVille(user.city)
             setPhoto(user.photo)
         }
-
     }, [user]);
 
-    const onFileSelect = (event: ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files) {
-            const file = event.target.files[0];
-
-            const reader = new FileReader();
-            reader.readAsDataURL(file)
-
-            reader.onload = () => {
-                const base64 = (reader.result as string);
-
-                if (base64) {
-                    setTimeout(() => {
-                        const imageData = base64.split(/[, ]+/).pop() as string;
-
-                        setPhoto(imageData);
-
-
-                    }, 500)
-                }
-            }
-        }
+    const handleChangePhoto = (photo: string) => {
+        setPhoto(photo)
     }
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event: any) => {
         event.preventDefault();
-
         setUsernameExist(false)
         setEmailExist(false)
-
         setEmail(email);
         setPseudo(pseudo);
         setVille(ville);
         if (password2 !== '') {
             setPassword(password);
-
             if (password != password2) {
                 setPasswordMatchError(true)
                 return null
@@ -88,39 +52,11 @@ function Settings() {
                 setPasswordMatchError(false)
             }
         }
-
-
-        try {
-            let token = sessionStorage.getItem("token");
-            if (token !== null) {
-                token = JSON.parse(token)
-                await axios.put(`http://localhost:3000/updateUser`, {
-                    username: pseudo,
-                    password: password,
-                    mail: email,
-                    city: ville,
-                    photo: photo
-                }, {
-                    headers: {
-                        Authorization: token
-                    }
-                });
-                window.location.reload()
-            }
-        } catch (e) {
-            if (e.response.request.response.includes("username")) {
-                setUsernameExist(true)
-            } else if (e.response.request.response.includes("mail")) {
-                setEmailExist(true)
-            }
-        }
-
-
+        updateUserInfo(pseudo, password, email, ville, photo, setUsernameExist, setEmailExist)
     };
 
     return (
         <>
-
             <div className="titre">
                 <h1>Modifier les informations</h1>
             </div>
@@ -136,13 +72,13 @@ function Settings() {
                     <label htmlFor="password">Mot de passe:</label>
                     <input type="password" name="password" value={password} onChange={(event) =>
                         setPassword(event.target.value)
-                    } />
+                    }/>
                 </div>
                 <div className="champMail">
                     <label htmlFor="confPass">Confirmez votre mot de passe:</label>
                     <input type="password" name="confPass" value={password2} onChange={(event) =>
                         setPassword2(event.target.value)
-                    } />
+                    }/>
                     {passwordMatchError ? <p>Les mots de passes sont différents</p> : ""}
                 </div>
                 <div className="champMail">
@@ -165,19 +101,22 @@ function Settings() {
                         type="file"
                         accept="image/*"
                         multiple
-                        onChange={onFileSelect}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => onFileSelect(event, handleChangePhoto)}
                     />
+                </div>
+                <div className={"imagePreview"}>
+                    <div className={"singleImage"}>
+                        <img className={"imgMinia"} src={"data:image/png;base64," + photo}/>
+                    </div>
+
                 </div>
 
                 <div className="champMail">
                     <button type="submit" className="bouton2"> Modifier</button>
                 </div>
             </form>
-
-
         </>
     );
 }
-
 
 export default Settings;

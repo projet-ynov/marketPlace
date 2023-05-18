@@ -1,28 +1,24 @@
-// import "./MyAnnonces.css"
+import "../MyAnnonces/MyAnnonces.css"
 import {useEffect, useState} from "react";
-import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import {getMyFavorites, removeFavorite} from "../../../services/req.tsx";
 
-
-function MyFavorites({ idUser }: { idUser: string }) {
-
+function MyFavorites() {
     const [articles, setData] = useState<Annonce[]>([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
-
-
-
-
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.get<Annonce[]>(`http://localhost:3000/myFavorites/${idUser}`);
-            setData(response.data);
+            const response = await getMyFavorites();
+            if(response){
+                setData(response);
+            }
             setLoading(false)
         };
         setLoading(true)
         fetchData();
-    }, [idUser]);
+    }, []);
 
     if(!articles){
         return null
@@ -33,21 +29,7 @@ function MyFavorites({ idUser }: { idUser: string }) {
     };
 
     const handleDelFav = (idAnnonce: string) => {
-        let token = sessionStorage.getItem("token");
-        if (token !== null) {
-            token = JSON.parse(token)
-
-            axios.put(`http://localhost:3000/removeFav`, {
-                    idAnnonce:idAnnonce
-                },
-                {
-                    headers: {
-                        Authorization: token,
-                    }
-                });
-            window.location.reload()
-
-        }
+        removeFavorite(idAnnonce)
     }
 
     return (
@@ -59,7 +41,8 @@ function MyFavorites({ idUser }: { idUser: string }) {
                     <div className={"containerMyAnnonces"}>
                         {articles.map((article) => (
                             <div className={"flexMyAnnonces"}  >
-                                <div className={"test"} onClick={() => handleClick(article._id)}><img src={"data:image/png;base64," + article.images[0].image}/>
+                                <div className={"divAnnonceListe"} onClick={() => handleClick(article._id)}>
+                                    <img src={"data:image/png;base64," + article.images[0].image}/>
                                     <p className={"title"}>{article.title} </p>
                                     <p className={"price"}>{article.price}</p>
                                 </div>

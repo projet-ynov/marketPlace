@@ -2,15 +2,14 @@ import "./Messages.css"
 import NavBarProfil from "../../components/navBarProfil/NavBarProfil.tsx";
 import {useEffect, useRef, useState} from "react";
 import axios from "axios";
-import {ms} from "date-fns/locale";
 import {discussionExist, sendMessage} from "../../services/req.tsx";
 import {useParams} from "react-router-dom";
-import {formLabelClasses} from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
 import {io} from "socket.io-client";
 
 function Messages() {
-    const [messages, setMessages] = useState<Messages[]>([])
+    const [messages, setMessages] = useState<Messages[]>()
+    const [discussion, setDiscussion] = useState<Discussions>()
     const {id} = useParams();
     const {role} = useParams();
     const [exist, setExist] = useState<boolean>();
@@ -25,7 +24,7 @@ function Messages() {
 
             token = JSON.parse(token)
 
-            const msg = await axios.get(
+            const msg = await axios.get<Discussions>(
                 `http://localhost:3000/discussion/getMsg/${id}?role=${role}`,
                 {
                     headers: {
@@ -33,8 +32,11 @@ function Messages() {
                     }
                 },
             );
-            if (msg) {
-                setMessages([...msg.data.message])
+            console.log("ici")
+            if (msg.data != null) {
+                console.log(msg.data)
+                setDiscussion(msg.data)
+                setMessages([...msg.data.discussion])
             }
         }
     };
@@ -63,6 +65,7 @@ function Messages() {
         });
 
         newSocket.on('new-message', (discussions: any) => {
+            console.log("ici", discussions)
             setMessages(discussions.discussion);
         });
 
@@ -99,7 +102,7 @@ function Messages() {
                             }
                         },
                     );
-                    setMessages([])
+                    window.location.reload()
                 };
                 fetchData();
             }
@@ -126,34 +129,46 @@ function Messages() {
     return (
         <>
             <NavBarProfil/>
+            {messages && discussion ? (
             <div className={"conteneurMessage"}>
                 <div className={"messagerie"}>
                     <div className={"headerMessage"}>
-                        <img src={'https://img.freepik.com/vecteurs-libre/maison-deux-etages_1308-16176.jpg'}
+                        <img src={"data:image/png;base64," + discussion?.vendeur.annonce[0].images}
                              className={"imgMessageHeader"}/>
-                        <p className={"infoMessage"}>Maison a vendre blabla</p>
-                        <p className={"infoMessage"}>10000000 €</p>
+                        <p className={"infoMessage"}>{discussion.vendeur.annonce[0].title}</p>
+                        <p className={"infoMessage"}>{discussion.vendeur.annonce[0].price} €</p>
                     </div>
+
                     <div className={"messageContainer"}>
                         <div ref={messagesRef} className={"messageBox"}>
+
                             {messages.map((msg, index) => (
-                                <div className={`message ${msg.user == 'vendeur' ? "right" : "left"}`} key={index}>
-                                    <img
-                                        src={"https://static.vecteezy.com/system/resources/previews/000/439/863/original/vector-users-icon.jpg"}
-                                        className={"imageMessage"}/>
-                                    <p className={"messagePara"}>{msg.message}</p>
-                                </div>
-                            ))}
+                                    <div className={`message ${msg.user == 'vendeur' ? "right" : "left"}`} key={index}>
+                                        {msg.user == 'vendeur' ? (
+                                            <img
+                                                src={"data:image/png;base64," + discussion.vendeur.photo}
+                                                className={"imageMessage"}/>
+                                        ) : (<img
+                                            src={"data:image/png;base64," + discussion.acheteur.photo}
+                                            className={"imageMessage"}/>)}
+
+                                        <p className={"messagePara"}>{msg.message}</p>
+                                    </div>
+                                ))}
+
                         </div>
                         <div className={"sendMessage"}>
-                            <input type={"text"} className={"inputMessages"} value={messageInput} onChange={(event) =>
-                                setMessageInput(event.target.value)
-                            }/>
+                            <input type={"text"} className={"inputMessages"} value={messageInput}
+                                   onChange={(event) =>
+                                       setMessageInput(event.target.value)
+                                   }/>
                             <SendIcon className={"sendButton"} onClick={handleSendMessage}/>
                         </div>
                     </div>
+
                 </div>
             </div>
+            ) : <p>Loading...</p>}
         </>
     )
 }

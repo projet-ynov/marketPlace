@@ -2,22 +2,19 @@ import './Articles.css'
 import Details from "../articlesDetails/Details.tsx";
 import NavBar from "../../components/navBar/NavBar.tsx";
 import {useEffect, useState} from "react";
-import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import {getArticles} from "../../services/req.tsx";
 
 function Articles() {
 
 
     const [data, setData] = useState<Annonce[]>([]);
-    const [textTypetextType, setTexte] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
-            const articles: Articles = await axios(
-                'http://localhost:3000/annonces',
-            );
-            setData(articles.data)
+            const articles = await getArticles()
+            setData(articles)
         };
 
         fetchData();
@@ -28,7 +25,7 @@ function Articles() {
     };
 
 
-    const handleSearch = (data) => {
+    const handleSearch = (data:any) => {
         if (data[0].data !== undefined) {
             setData(data[0].data);
         } else {
@@ -42,9 +39,11 @@ function Articles() {
             <NavBar handleSearch={handleSearch} dataRes={data}/>
             <div className="container">
                 {data.map((article, index) => (
-                    <div key={index} className="articles" onClick={() => handleClick(article._id)}>
-                        <Details{...article}/>
-                    </div>
+                    (article.status == 0 && (
+                        <div key={index} className="articles" onClick={() => handleClick(article._id)}>
+                            <Details{...article}/>
+                        </div>
+                    ))
                 ))}
             </div>
         </>

@@ -7,14 +7,11 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import {useEffect, useState} from "react";
 import HomeIcon from '@mui/icons-material/Home';
 import axios from "axios";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogActions from "@mui/material/DialogActions";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
 import {io} from "socket.io-client";
+import {getImgUser} from "../../services/req.tsx";
+import DialogSignalement from "../dialogSignalement/DialogSinalement.tsx";
 
-function NavBar({handleSearch, dataRes}) {
+function NavBar({handleSearch, dataRes}: { handleSearch?: any, dataRes?: any }) {
     const navigate = useNavigate();
     const [image, setImage] = useState('')
     const [title, setTitle] = useState('')
@@ -28,27 +25,15 @@ function NavBar({handleSearch, dataRes}) {
     const [socket, setSocket] = useState<any>()
 
     useEffect(() => {
-        let token = sessionStorage.getItem("token");
-        if (token !== null) {
-            token = JSON.parse(token)
-            const fetchData = async () => {
-                await axios.get(`http://localhost:3000/imgUser`, {
-                    headers: {
-                        Authorization: token
-                    }
-                }).then(r => {
-                    setImage(r.data)
-                });
-
-            };
-
-            fetchData();
-        }
-    }, [image]);
+        const fetchData = async () => {
+            const imgUser = await getImgUser()
+            setImage(imgUser)
+        };
+        fetchData();
+    }, []);
 
 
     useEffect(() => {
-
         const socket = io('http://localhost:3000');
         setSocket(socket);
 
@@ -58,7 +43,6 @@ function NavBar({handleSearch, dataRes}) {
     }, []);
 
     const handleSearcher = async () => {
-
         if (title !== '' && city !== '') {
             const data = await axios.get<Annonce[]>(`http://localhost:3000/both/${title}/${city}`);
             handleSearch([data]);
@@ -72,10 +56,7 @@ function NavBar({handleSearch, dataRes}) {
             const data = await axios.get<Annonce[]>(`http://localhost:3000/annonces`);
             handleSearch([data]);
         }
-
-
     };
-
 
     const goProfile = () => {
         const idUser = sessionStorage.getItem("idUser");
@@ -91,23 +72,9 @@ function NavBar({handleSearch, dataRes}) {
         navigate("/")
     }
 
-
-    const navigateHome = () => {
-        navigate("/")
+    const navigateTo = (url: string) => {
+        navigate(url)
     }
-
-    const navigateAjout = () => {
-        navigate("/ajouter")
-    }
-
-    const navigateLogin = () => {
-        navigate("/login")
-    }
-
-    const navigateSignin = () => {
-        navigate("/inscription")
-    }
-
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -116,25 +83,24 @@ function NavBar({handleSearch, dataRes}) {
         setAnchorEl(null);
     };
 
-    const handleSortDesc = () => {
-        const sorted: Annonce[] = [...dataRes].sort((a, b) => b.price - a.price)
-        handleSearch(sorted)
+    const handleSort = (sort: string) => {
+        if (sort == "desc") {
+            const sorted: Annonce[] = [...dataRes].sort((a, b) => b.price - a.price)
+            handleSearch(sorted)
+        } else if (sort == "asc") {
+            const sorted: Annonce[] = [...dataRes].sort((a, b) => a.price - b.price)
+            handleSearch(sorted)
+        }
     }
 
-    const handleSortAsc = () => {
-        const sorted: Annonce[] = [...dataRes].sort((a, b) => a.price - b.price)
-        handleSearch(sorted)
-    }
-
-    const handleSortAz = () => {
-        const sorted: Annonce[] = [...dataRes].sort((a, b) => a.title.localeCompare(b.title));
-
-        handleSearch(sorted)
-    }
-
-    const handleSortZa = () => {
-        const sorted: Annonce[] = [...dataRes].sort((a, b) => b.title.localeCompare(a.title));
-        handleSearch(sorted)
+    const handleSortLetter = (sort: string) => {
+        if (sort == 'az') {
+            const sorted: Annonce[] = [...dataRes].sort((a, b) => a.title.localeCompare(b.title));
+            handleSearch(sorted)
+        } else if (sort == 'za') {
+            const sorted: Annonce[] = [...dataRes].sort((a, b) => b.title.localeCompare(a.title));
+            handleSearch(sorted)
+        }
     }
 
     const handleSignalerOpen = () => {
@@ -159,29 +125,26 @@ function NavBar({handleSearch, dataRes}) {
                 userId,
                 date,
             };
-
             console.log('Emitting ticket message');
             socket.emit('ticket', message);
-
             setTitleSignalement('');
             setMessageSignalement('');
             setOpenModal(false)
         }
-
-
     };
 
     return (
         <>
             <div className="header">
-                {isConnected ? (
+                {isConnected && (
                     <div className="add">
-                        <button type={"button"} onClick={navigateAjout} className={"ajouter"}>Ajouter</button>
+                        <button type={"button"} onClick={() => navigateTo("/ajouter")} className={"ajouter"}>Ajouter
+                        </button>
 
                         <button type={"button"} onClick={handleSignalerOpen} className={"signaler"}>Signaler</button>
-                    </div>) : ''}
+                    </div>)}
                 <div className="search">
-                    <IconButton onClick={() => navigateHome()}>
+                    <IconButton onClick={() => navigateTo("")}>
                         <HomeIcon style={{fontSize: '30px', color: 'white'}}/>
                     </IconButton>
                     <input type="text" placeholder="Chaussures, Maison, Meubles ..." value={title} onChange={(event) =>
@@ -206,10 +169,10 @@ function NavBar({handleSearch, dataRes}) {
                             'aria-labelledby': 'basic-button',
                         }}
                     >
-                        <MenuItem onClick={handleSortDesc}>price desc</MenuItem>
-                        <MenuItem onClick={handleSortAsc}>price asc</MenuItem>
-                        <MenuItem onClick={handleSortAz}>A-Z</MenuItem>
-                        <MenuItem onClick={handleSortZa}>Z-A</MenuItem>
+                        <MenuItem onClick={() => handleSort("desc")}>price desc</MenuItem>
+                        <MenuItem onClick={() => handleSort("asc")}>price asc</MenuItem>
+                        <MenuItem onClick={() => handleSortLetter('az')}>A-Z</MenuItem>
+                        <MenuItem onClick={() => handleSortLetter('za')}>Z-A</MenuItem>
                     </Menu>
 
                     <IconButton>
@@ -231,51 +194,23 @@ function NavBar({handleSearch, dataRes}) {
                     </div>
                 ) : (<div className={"contentHeaderR"}>
                         <div className={"logout"}>
-                            <button type={"button"} onClick={navigateLogin} className={"buttonLogs"}>Se connecter
+                            <button type={"button"} onClick={() => navigateTo("/login")} className={"buttonLogs"}>Se
+                                connecter
                             </button>
                         </div>
                         <div className="profil">
-                            <button type={"button"} onClick={navigateSignin} className={"buttonLogs"}>S'inscrire
+                            <button type={"button"} onClick={() => navigateTo("/inscription")}
+                                    className={"buttonLogs"}>S'inscrire
                             </button>
                         </div>
                     </div>
                 )}
             </div>
-            <Dialog
-                open={openModal}
-                onClose={handleSignalerClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-
-            >
-                <DialogTitle id="alert-dialog-title" className={"titleSignalement"}>
-                    {"Une information à signaler ?"}
-                </DialogTitle>
-                <DialogContent>
-
-                        <div className={"containerSignalement"}>
-                            <label htmlFor="title">Titre:</label>
-                            <input type="text" name="title" value={titleSignalement} onChange={(event) =>
-                                setTitleSignalement(event.target.value)
-                            } required={true}/>
-
-                            <label htmlFor="description">Message:</label>
-                            <textarea  name="description" value={messageSignalement} onChange={(event) =>
-                                setMessageSignalement(event.target.value)
-                            } required={true} className={"messageSignalement"}/>
-                        </div>
-
-                </DialogContent>
-
-                <DialogActions>
-                    <Button onClick={handleSignalerClose}>Annuler</Button>
-                    <Button onClick={handleSignalerSend}>
-                        Valider
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <DialogSignalement openModal={openModal} handleSignalerClose={handleSignalerClose}
+                               handleSignalerSend={handleSignalerSend} messageSignalement={messageSignalement}
+                               setMessageSignalement={setMessageSignalement} titleSignalement={titleSignalement}
+                               setTitleSignalement={setTitleSignalement}/>
         </>
     )
 }
-
 export default NavBar

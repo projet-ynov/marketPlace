@@ -1,11 +1,11 @@
 import "./MyAnnonces.css"
 import {useEffect, useState} from "react";
-import axios, {AxiosRequestConfig} from "axios";
 import {useNavigate} from "react-router-dom";
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
+import {deleteAnnonce, getMyAnnonce} from "../../../services/req.tsx";
 
 function MyAnnonces({idUser}: { idUser: string }) {
 
@@ -17,19 +17,16 @@ function MyAnnonces({idUser}: { idUser: string }) {
     const [idAnnonce, setIdAnnonce] = useState("");
 
     useEffect(() => {
-        let token = sessionStorage.getItem("token");
-        if (token !== null) {
-            token = JSON.parse(token)
-            const fetchData = async () => {
-                const response = await axios.get<Annonce[]>(`http://localhost:3000/myAnnonces/${idUser}`);
-                console.log(response)
-                setData(response.data);
-                setLoading(false)
-            };
-            setLoading(true)
-            fetchData();
-        }
-    }, [idUser]);
+        const fetchData = async () => {
+            const myAnnonces = await getMyAnnonce()
+            if (myAnnonces) {
+                setData(myAnnonces);
+            }
+            setLoading(false)
+        };
+        setLoading(true)
+        fetchData();
+    }, []);
 
     useEffect(() => {
         if (sessionStorage.getItem("idUser")) {
@@ -37,7 +34,7 @@ function MyAnnonces({idUser}: { idUser: string }) {
             if (token) {
                 if (JSON.parse(token) == idUser) {
                     setIsConnected(true)
-                }else {
+                } else {
                     setIsConnected(false)
                 }
             }
@@ -61,7 +58,6 @@ function MyAnnonces({idUser}: { idUser: string }) {
             sessionStorage.setItem('annonce', JSON.stringify(annonce))
             navigate(`/edit`);
         }
-
     };
 
     const handleDeleteConfirmOpen = (idAnnonce: string) => {
@@ -70,25 +66,13 @@ function MyAnnonces({idUser}: { idUser: string }) {
     };
 
     const handleDeleteConfirmClose = () => {
-
         setOpen(false);
     };
 
     const handleConfirmDelete = () => {
-        let token = sessionStorage.getItem("token");
-        if (token !== null) {
-            token = JSON.parse(token)
-                axios.delete(`http://localhost:3000/deleteFront/${idAnnonce}`,
-                    {
-                        headers: {
-                            Authorization: token,
-                        }
-                    });
+            deleteAnnonce(idAnnonce)
             window.location.reload()
-            };
-        };
-
-
+        }
 
     return (
         <>
@@ -98,20 +82,24 @@ function MyAnnonces({idUser}: { idUser: string }) {
                 articles && articles.length > 0 ? (
                     <div className={"containerMyAnnonces"}>
                         {articles.map((article) => (
-                            <div className={"flexMyAnnonces"}>
-                                <div className={"divAnnonceListe"} onClick={() => handleClick(article._id)}><img
-                                    src={"data:image/png;base64," + article.images[0].image}/>
-                                    <p className={"title"}>{article.title} </p>
-                                    <p className={"price"}>{article.price} €</p>
-                                </div>
-                                {isConnected ? (
-                                    (<div>
-                                        <button type={"button"} onClick={() => handleEdit(article)}>Edit</button>
-                                        <button type={"button"} onClick={() => handleDeleteConfirmOpen(article._id)}>Supprimer</button>
-                                    </div>)
-                                ) : ""}
+                            (article.status == 0 && (
+                                <div className={"flexMyAnnonces"}>
+                                    <div className={"divAnnonceListe"} onClick={() => handleClick(article._id)}><img
+                                        src={"data:image/png;base64," + article.images[0].image}/>
+                                        <p className={"title"}>{article.title} </p>
+                                        <p className={"price"}>{article.price} €</p>
+                                    </div>
+                                    {isConnected ? (
+                                        (<div>
+                                            <button type={"button"} onClick={() => handleEdit(article)}>Edit</button>
+                                            <button type={"button"}
+                                                    onClick={() => handleDeleteConfirmOpen(article._id)}>Supprimer
+                                            </button>
+                                        </div>)
+                                    ) : ""}
 
-                            </div>
+                                </div>
+                            ))
                         ))}
                     </div>
                 ) : (
@@ -129,7 +117,6 @@ function MyAnnonces({idUser}: { idUser: string }) {
                     {"Voulez-vous vraiment supprimer l'annonce ?"}
                 </DialogTitle>
 
-
                 <DialogActions>
                     <Button onClick={handleDeleteConfirmClose}>Annuler</Button>
                     <Button onClick={handleConfirmDelete}>
@@ -140,7 +127,4 @@ function MyAnnonces({idUser}: { idUser: string }) {
         </>
     )
 }
-
 export default MyAnnonces;
-
-

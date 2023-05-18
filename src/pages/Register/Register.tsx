@@ -1,5 +1,5 @@
 import "./Register.css";
-import {useEffect, useState} from "react";
+import { useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
@@ -16,7 +16,7 @@ function Register() {
     const navigate = useNavigate();
 
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event: any) => {
         event.preventDefault();
 
         setUsernameExist(false)
@@ -43,7 +43,7 @@ function Register() {
                     "city": ville,
                 });
                 navigate(`/login`);
-            }catch (e) {
+            }catch (e: any) {
                 if(e.response.request.response.includes("username")){
                     setUsernameExist(true)
                 }else if(e.response.request.response.includes("mail")){

@@ -11,7 +11,7 @@ function Details(article: Annonce) {
 
 
 
-    const formattedDate = format(new Date(), 'd MMMM yyyy, HH:mm', {locale: fr});
+    const formattedDate = format(new Date(date), 'd MMMM yyyy, HH:mm', {locale: fr});
     return (
         <>
             <h2 className="dateAnnonce">{formattedDate}</h2>
@@ -26,11 +26,11 @@ function Details(article: Annonce) {
                 <h2>{description}</h2>
             </div>
             <div className="footer">
-                {/*{vendeur.image !== "" ? (*/}
-                {/*    <Avatar alt="Remy Sharp" src={vendeur.image}/>*/}
-                {/*) : (*/}
+                {profilUser.photo !== "" ? (
+                    <Avatar alt="Remy Sharp" src={"data:image/png;base64," + profilUser.photo}/>
+                ) : (
                     <Avatar>{Array.from(profilUser.username)[0].toUpperCase()}</Avatar>
-                {/*)}*/}
+                )}
                 <h2>{location}</h2>
             </div>
         </div>

@@ -20,8 +20,17 @@ function PageDetail() {
         fetchData()
     },[])
 
-    const handleMessage = (idAnnonce: string) => {
-        const role = "vendeur"
+    const handleMessage = (idVendeur: string,idAnnonce:string) => {
+        let role;
+        let myId = sessionStorage.getItem('idUser')
+        if (myId){
+            myId = JSON.parse(myId)
+            if(myId == idVendeur){
+                role = "vendeur"
+            }else {
+                role = "acheteur"
+            }
+        }
         navigate(`/messages/${idAnnonce}/${role}`)
     }
 
@@ -31,7 +40,7 @@ function PageDetail() {
         <>
             <div className={"containerMsg"}>
                 {discussions.map((discussion,index) => (
-                    <div className={"discussionLine"} onClick={() => handleMessage(discussion.vendeur.annonce[0]._id)}>
+                    <div className={"discussionLine"} onClick={() => handleMessage(discussion.vendeur.userId, discussion.vendeur.annonce[0]._id)} key={index}>
 
                             <img className={"imgDiscussionListe"} src={"data:image/png;base64," + discussion.vendeur.annonce[0].images}/>
                             <p>Vendeur: {discussion.vendeur.username}</p>

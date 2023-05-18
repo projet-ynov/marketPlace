@@ -4,7 +4,6 @@ import TabList from "@mui/lab/TabList";
 import Tab from "@mui/material/Tab";
 import TabPanel from "@mui/lab/TabPanel";
 import {SyntheticEvent, useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
 import MyAnnonces from "../tabsPages/myAnnonces/MyAnnonces.tsx";
 import MyFavorites from "../tabsPages/myFavorite/MyFavorites.tsx";
 import Settings from "../tabsPages/Settings/Settings.tsx";
@@ -28,6 +27,7 @@ function Tabs({ idUser }: { idUser: string }) {
     },[idUser])
 
     const handleChange = (event: SyntheticEvent, newValue: string) => {
+        event.preventDefault()
         setValue(newValue);
     };
 
@@ -46,7 +46,7 @@ function Tabs({ idUser }: { idUser: string }) {
                         </TabList>
                     </Box>
                     <TabPanel value="1"><MyAnnonces idUser={idUser}/></TabPanel>
-                    <TabPanel value="2"><MyFavorites idUser={idUser}/></TabPanel>
+                    <TabPanel value="2"><MyFavorites/></TabPanel>
                     <TabPanel value="3"><Discussions/></TabPanel>
                     <TabPanel value="4"><Vendu/></TabPanel>
                     <TabPanel value="5"><Acheter/></TabPanel>

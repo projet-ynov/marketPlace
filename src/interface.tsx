@@ -6,7 +6,8 @@ interface Annonce {
     price: number,
     date: Date,
     location: string,
-    profilUser: User
+    profilUser: User,
+    status: number
 }
 
 
@@ -31,7 +32,7 @@ interface Articles {
 interface Discussions {
     vendeur: VendeurDiscussion,
     acheteur: AcheteurDiscussion,
-    chat: Messages[]
+    discussion: Messages[]
 }
 
 interface VendeurDiscussion{
@@ -52,6 +53,7 @@ interface AnnonceDiscussion {
     images: string,
     price: number
 }
+
 
 interface Messages {
     user: string,

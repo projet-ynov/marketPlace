@@ -9,7 +9,7 @@ function Edit() {
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [price, setPrice] = useState(0);
+    const [price, setPrice] = useState<number>(0);
     const [image, setImage] = useState<ImageAnnonce[]>([]);
     const [annonce, setAnnonce] = useState<Annonce>()
     const navigate = useNavigate();
@@ -61,7 +61,7 @@ function Edit() {
         }
     }
 
-    const handlePublication = async (event) => {
+    const handlePublication = async (event:any) => {
         event.preventDefault();
         setTitle(title);
         setPrice(price);
@@ -101,7 +101,7 @@ function Edit() {
     }
 
     const deleteImage = (index: number) => {
-        let images = [...image];
+        const images = [...image];
         images.splice(index, 1)
         console.log(images)
         setImage(images)
@@ -133,7 +133,7 @@ function Edit() {
                         <div className="champMail">
                             <label htmlFor="price">Prix:</label>
                             <input type="number" name="price" value={price} onChange={(event) =>
-                                setPrice(event.target.value)
+                                setPrice(parseInt(event.target.value))
                             } required={true}/>
                         </div>
                         <div className="champMail">

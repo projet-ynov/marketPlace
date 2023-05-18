@@ -1,4 +1,4 @@
-import {CardElement, Elements, PaymentElement} from "@stripe/react-stripe-js";
+import { PaymentElement} from "@stripe/react-stripe-js";
 import {useState} from "react";
 import {useStripe, useElements} from "@stripe/react-stripe-js";
 import "./AchatForm.css"
@@ -6,10 +6,10 @@ import "./AchatForm.css"
 function AchatForm() {
     const stripe = useStripe();
     const elements = useElements();
-    const [message, setMessage] = useState(null);
+    const [message, setMessage] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e:any) => {
         e.preventDefault();
 
         if (!stripe || !elements ) {
@@ -29,11 +29,12 @@ function AchatForm() {
         });
 
         if (error.type === "card_error" || error.type === "validation_error") {
-            setMessage(error.message);
+            if(error.message){
+                setMessage(error.message);
+            }
         } else {
             setMessage("An unexpected error occured.");
         }
-
         setIsProcessing(false);
     };
 

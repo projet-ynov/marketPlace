@@ -9,7 +9,7 @@ function AjouterAnnonce() {
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [price, setPrice] = useState(0);
+    const [price, setPrice] = useState<number>(0);
     const [image, setImage] = useState<ImageAnnonce[]>([]);
     const [user, setUser] = useState<User>();
     const navigate = useNavigate();
@@ -44,11 +44,10 @@ function AjouterAnnonce() {
                         const imageData = base64.split(/[, ]+/).pop() as string;
 
                         const newImage: ImageAnnonce = {
-                            image : imageData
+                            image: imageData
                         }
 
-                        setImage([...image,newImage]);
-
+                        setImage([...image, newImage]);
 
 
                     }, 500)
@@ -57,6 +56,13 @@ function AjouterAnnonce() {
         }
     }
 
+
+    const deleteImage = (index: number) => {
+        const images = [...image];
+        images.splice(index, 1)
+        setImage(images)
+
+    }
 
     const handlePublication = async (event: any) => {
         event.preventDefault();
@@ -72,19 +78,19 @@ function AjouterAnnonce() {
             token = JSON.parse(token)
             try {
                 apiClient.post(`/addAnnonce`, {
-                    "title": title,
-                    "description": description,
-                    "price": price,
-                    "date": new Date(),
-                    "location": user?.city,
-                    "images": image,
-                    "profil": user._id
-                },
-                //     {
-                //     headers: {
-                //         Authorization: token,
-                //     }
-                // }
+                        "title": title,
+                        "description": description,
+                        "price": price,
+                        "date": new Date(),
+                        "location": user?.city,
+                        "images": image,
+                        "profil": user._id
+                    },
+                    //     {
+                    //     headers: {
+                    //         Authorization: token,
+                    //     }
+                    // }
                 ).then(r => {
                     console.log(r)
                 })
@@ -100,59 +106,60 @@ function AjouterAnnonce() {
         }
     }
 
-        return (
-            <>
-                <NavBarProfil/>
-                <div className="total">
-                    <div className="container2">
-                        <div className="titre">
-                            <h1>Publier une annonce</h1>
-                        </div>
-                        <form className="champFlex" onSubmit={handlePublication}>
-                            <div className="champMail">
-                                <label htmlFor="title">Titre:</label>
-                                <input type="text" name="title" value={title} onChange={(event) =>
-                                    setTitle(event.target.value)
-                                } required={true}/>
-                            </div>
-                            <div className="champMail">
-                                <label htmlFor="description">Description:</label>
-                                <textarea className={"descriptionInput"} name="description" value={description}
-                                          onChange={(event) =>
-                                              setDescription(event.target.value)
-                                          } required={true}/>
-                            </div>
-                            <div className="champMail">
-                                <label htmlFor="price">Prix:</label>
-                                <input type="number" name="price" value={price} onChange={(event) =>
-                                    setPrice(event.target.value)
-                                } required={true}/>
-                            </div>
-                            <div className="champMail">
-                                <label htmlFor="image">Images:</label>
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    multiple
-                                    onChange={onFileSelect}
-                                    required={true}
-                                />
-                            </div>
-                            <div className={"imagePreview"}>
-                                {image.map((img, index) => (
-
-                                    <img className={"imgMinia"} src={"data:image/png;base64," + img.image} key={index}/>
-
-                                ))}
-                            </div>
-                            <div className="champMail">
-                                <button type="submit" className="bouton2">Publier</button>
-                            </div>
-                        </form>
+    return (
+        <>
+            <NavBarProfil/>
+            <div className="total">
+                <div className="container2">
+                    <div className="titre">
+                        <h1>Publier une annonce</h1>
                     </div>
+                    <form className="champFlex" onSubmit={handlePublication}>
+                        <div className="champMail">
+                            <label htmlFor="title">Titre:</label>
+                            <input type="text" name="title" value={title} onChange={(event) =>
+                                setTitle(event.target.value)
+                            } required={true}/>
+                        </div>
+                        <div className="champMail">
+                            <label htmlFor="description">Description:</label>
+                            <textarea className={"descriptionInput"} name="description" value={description}
+                                      onChange={(event) =>
+                                          setDescription(event.target.value)
+                                      } required={true}/>
+                        </div>
+                        <div className="champMail">
+                            <label htmlFor="price">Prix:</label>
+                            <input type="number" name="price" value={price} onChange={(event) =>
+                                setPrice(parseInt(event.target.value))
+                            } required={true}/>
+                        </div>
+                        <div className="champMail">
+                            <label htmlFor="image">Images:</label>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                multiple
+                                onChange={onFileSelect}
+                                required={true}
+                            />
+                        </div>
+                        <div className={"imagePreview"}>
+                            {image.map((img, index) => (
+                                <div className={"singleImage"}>
+                                    <img className={"imgMinia"} src={"data:image/png;base64," + img.image} key={index}/>
+                                    <button type={"button"} onClick={() => deleteImage(index)}>X</button>
+                                </div>
+                            ))}
+                        </div>
+                        <div className="champMail">
+                            <button type="submit" className="bouton2">Publier</button>
+                        </div>
+                    </form>
                 </div>
-            </>
-        )
-    }
+            </div>
+        </>
+    )
+}
 
-    export default AjouterAnnonce;
+export default AjouterAnnonce;

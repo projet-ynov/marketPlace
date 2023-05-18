@@ -2,7 +2,6 @@ import "./NavBarProfil.css"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {useNavigate} from "react-router-dom";
 function NavBarProfil() {
-
     const navigate = useNavigate();
     const returnAccueil = () => {
         navigate(`/`);
@@ -19,5 +18,4 @@ function NavBarProfil() {
     );
 
 }
-
 export default NavBarProfil;
