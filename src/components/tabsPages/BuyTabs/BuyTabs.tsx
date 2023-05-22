@@ -1,4 +1,4 @@
-import "../myAnnonces/MyAnnonces.css"
+import "../MyAnnonces/MyAnnonces.css"
 import {useEffect, useState} from "react";
 import {getAcheter} from "../../../services/req.tsx";
 
