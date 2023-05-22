@@ -42,7 +42,7 @@ function NavBar({handleSearch, dataRes}: { handleSearch?: any, dataRes?: any }) 
         setSocket(newSocket);
 
         return () => {
-            socket.disconnect();
+            newSocket.disconnect();
         };
     }, []);
 

@@ -1,9 +1,9 @@
 import { PaymentElement} from "@stripe/react-stripe-js";
 import {useState} from "react";
 import {useStripe, useElements} from "@stripe/react-stripe-js";
-import "./AchatForm.css"
+import "./SaleForm.css"
 
-function AchatForm() {
+function SaleForm() {
     const stripe = useStripe();
     const elements = useElements();
     const [message, setMessage] = useState('');
@@ -13,8 +13,7 @@ function AchatForm() {
         e.preventDefault();
 
         if (!stripe || !elements ) {
-            // Stripe.js has not yet loaded.
-            // Make sure to disable form submission until Stripe.js has loaded.
+
             return;
         }
 
@@ -23,7 +22,7 @@ function AchatForm() {
         const {error} = await stripe.confirmPayment({
             elements,
             confirmParams: {
-                // Make sure to change this to your payment completion page
+
                 return_url: `${window.location.origin}/`,
             },
         });
@@ -55,4 +54,4 @@ function AchatForm() {
     );
 }
 
-export default AchatForm;
+export default SaleForm;

@@ -6,7 +6,7 @@ import {Avatar} from "@mui/material";
 import {deepOrange} from '@mui/material/colors';
 import Carousel from 'react-material-ui-carousel'
 import {Paper} from "@mui/material";
-import NavBarProfil from "../../components/navBarProfil/NavBarProfil.tsx";
+import NavBarProfil from "../../components/NavBarProfil/NavBarProfil.tsx";
 
 
 

@@ -2,7 +2,7 @@ import axios from "axios";
 
 const apiClient = axios.create({
     baseURL: 'http://localhost:3000',
-    maxContentLength: 100 * 1024 * 1024, // 100MB (ajustez cette valeur selon vos besoins)
+    maxContentLength: 100 * 1024 * 1024,
 });
 
 export async function discussionExist(idAnnonce: string, role: string) {

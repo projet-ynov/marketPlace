@@ -1,7 +1,7 @@
 import "./Settings.css";
 import {ChangeEvent, useEffect, useState} from "react";
 import {getUserInfo, updateUserInfo} from "../../../services/req.tsx";
-import {onFileSelect} from "../../functions/functions.tsx";
+import {onFileSelect} from "../../ImageLoader/ImageLoader.tsx";
 
 function Settings() {
     const [email, setEmail] = useState('');

@@ -1,35 +1,32 @@
-import "./Edit.css"
-import NavBarProfil from "../../components/navBarProfil/NavBarProfil.tsx";
+import "./AddSale.css"
+import NavBarProfil from "../../components/NavBarProfil/NavBarProfil.tsx";
 import {ChangeEvent, useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
 
-function Edit() {
+function AddSale() {
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState<number>(0);
     const [image, setImage] = useState<ImageAnnonce[]>([]);
-    const [annonce, setAnnonce] = useState<Annonce>()
+    const [user, setUser] = useState<User>();
     const navigate = useNavigate();
 
-    useEffect(() => {
 
-        const annonceRecup = sessionStorage.getItem("annonce");
-        if (annonceRecup !== null) {
-            setAnnonce(JSON.parse(annonceRecup))
+    useEffect(() => {
+        let idUser = sessionStorage.getItem("idUser");
+        if (idUser !== null) {
+            idUser = JSON.parse(idUser)
+            const fetchData = async () => {
+                const response = await axios.get<User>(`http://localhost:3000/user/${idUser}`);
+                setUser(response.data);
+            };
+
+            fetchData();
         }
     }, []);
-
-    useEffect(() => {
-        if (annonce) {
-            setTitle(annonce.title);
-            setDescription(annonce.description);
-            setPrice(annonce.price);
-            setImage(annonce.images);
-        }
-    }, [annonce]);
 
 
     const onFileSelect = (event: ChangeEvent<HTMLInputElement>) => {
@@ -56,50 +53,45 @@ function Edit() {
                     }, 500)
                 }
             }
-        } else {
-
         }
     }
 
-    const handlePublication = async (event:any) => {
-        event.preventDefault();
-        setTitle(title);
-        setPrice(price);
-        setDescription(description)
-        const apiClient = axios.create({
-            baseURL: 'http://localhost:3000',
-            maxContentLength: 100 * 1024 * 1024
-        });
-        let token = sessionStorage.getItem("token");
-        if (token !== null) {
-            token = JSON.parse(token)
-            try {
-                apiClient.post(`/updateAnnonceFront/${annonce?._id}`, {
-                        "title": title,
-                        "description": description,
-                        "price": price,
-                        "images": image
-                    },
-                        {
-                        headers: {
-                            Authorization: token,
-                        }
-                    }
-                ).then(() => {
-                    sessionStorage.removeItem('annonce')
-                })
-                navigate(`/profil/${annonce?.profilUser?._id}`);
-            } catch (e) {
-
-            }
-        }
-    }
 
     const deleteImage = (index: number) => {
         const images = [...image];
         images.splice(index, 1)
         setImage(images)
 
+    }
+
+    const handlePublication = async (event: any) => {
+        event.preventDefault();
+        setTitle(title);
+        setPrice(price);
+        setDescription(description)
+        const apiClient = axios.create({
+            baseURL: 'http://localhost:3000',
+            maxContentLength: 100 * 1024 * 1024, // 100MB (ajustez cette valeur selon vos besoins)
+        });
+        let token = sessionStorage.getItem("token");
+        if (token !== null && user) {
+            token = JSON.parse(token)
+            try {
+                apiClient.post(`/addAnnonce`, {
+                        "title": title,
+                        "description": description,
+                        "price": price,
+                        "date": new Date(),
+                        "location": user?.city,
+                        "images": image,
+                        "profil": user._id
+                    }
+                )
+                navigate(`/profil/${user?._id}`);
+            } catch (e) {
+                console.log(e)
+            }
+        }
     }
 
     return (
@@ -137,6 +129,7 @@ function Edit() {
                                 accept="image/*"
                                 multiple
                                 onChange={onFileSelect}
+                                required={true}
                             />
                         </div>
                         <div className={"imagePreview"}>
@@ -157,4 +150,4 @@ function Edit() {
     )
 }
 
-export default Edit;
+export default AddSale;

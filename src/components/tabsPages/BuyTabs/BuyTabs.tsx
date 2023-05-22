@@ -2,7 +2,7 @@ import "../myAnnonces/MyAnnonces.css"
 import {useEffect, useState} from "react";
 import {getAcheter} from "../../../services/req.tsx";
 
-function Acheter() {
+function BuyTabs() {
 
     const [articles, setData] = useState<AnnoncesVendu[]>([]);
     const [loading, setLoading] = useState(true);
@@ -53,6 +53,6 @@ function Acheter() {
     )
 }
 
-export default Acheter;
+export default BuyTabs;
 
 

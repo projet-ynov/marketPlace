@@ -1,15 +1,15 @@
 import {createBrowserRouter} from "react-router-dom";
-import Articles from "./Accueil/articles/Articles.tsx";
-import NavBar from "./components/navBar/NavBar.tsx";
-import PageDetail from "./pages/page_detail/PageDetail.tsx";
-import Register from "./pages/Register/Register.tsx";
-import Login from "./pages/Login/Login.tsx";
-import Profil from "./pages/profil/Profil.tsx";
-import AjoutAnnonce from "./pages/AjoutAnnonce/AjoutAnnonce.tsx";
-import Edit from "./pages/Edit/Edit.tsx";
-import Messages from "./pages/Messages/Messages.tsx";
-import AchatForm from "./pages/AchatForm/AchatForm.tsx";
-import Achat from "./pages/Achat/Achat.tsx";
+import Articles from "./Pages/Articles/Articles.tsx";
+import NavBar from "./components/NavBar/NavBar.tsx";
+import PageDetail from "./Pages/PageDetail/PageDetail.tsx";
+import Register from "./Pages/Register/Register.tsx";
+import Login from "./Pages/Login/Login.tsx";
+import Profil from "./Pages/Profil/Profil.tsx";
+import AjoutAnnonce from "./Pages/AddSale/AddSale.tsx";
+import Edit from "./Pages/Edit/Edit.tsx";
+import Messages from "./Pages/Messages/Messages.tsx";
+import SaleForm from "./Pages/SaleForm/SaleForm.tsx";
+import Buy from "./Pages/Buy/Buy.tsx";
 
 
 const router = createBrowserRouter([
@@ -48,11 +48,11 @@ const router = createBrowserRouter([
     },
     {
         path: "/achatForm",
-        element: <AchatForm/>
+        element: <SaleForm/>
     },
     {
         path: "/achat/:idAnnonce/:montant",
-        element: <Achat/>
+        element: <Buy/>
     },
     {
         path: "/*",

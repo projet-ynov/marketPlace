@@ -1,32 +1,35 @@
-import "./AjoutAnnonce.css"
-import NavBarProfil from "../../components/navBarProfil/NavBarProfil.tsx";
+import "./Edit.css"
+import NavBarProfil from "../../components/NavBarProfil/NavBarProfil.tsx";
 import {ChangeEvent, useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
 
-function AjouterAnnonce() {
+function Edit() {
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState<number>(0);
     const [image, setImage] = useState<ImageAnnonce[]>([]);
-    const [user, setUser] = useState<User>();
+    const [annonce, setAnnonce] = useState<Annonce>()
     const navigate = useNavigate();
 
-
     useEffect(() => {
-        let idUser = sessionStorage.getItem("idUser");
-        if (idUser !== null) {
-            idUser = JSON.parse(idUser)
-            const fetchData = async () => {
-                const response = await axios.get<User>(`http://localhost:3000/user/${idUser}`);
-                setUser(response.data);
-            };
 
-            fetchData();
+        const annonceRecup = sessionStorage.getItem("annonce");
+        if (annonceRecup !== null) {
+            setAnnonce(JSON.parse(annonceRecup))
         }
     }, []);
+
+    useEffect(() => {
+        if (annonce) {
+            setTitle(annonce.title);
+            setDescription(annonce.description);
+            setPrice(annonce.price);
+            setImage(annonce.images);
+        }
+    }, [annonce]);
 
 
     const onFileSelect = (event: ChangeEvent<HTMLInputElement>) => {
@@ -53,46 +56,50 @@ function AjouterAnnonce() {
                     }, 500)
                 }
             }
+        } else {
+
         }
     }
 
-
-    const deleteImage = (index: number) => {
-        const images = [...image];
-        images.splice(index, 1)
-        setImage(images)
-
-    }
-
-    const handlePublication = async (event: any) => {
+    const handlePublication = async (event:any) => {
         event.preventDefault();
         setTitle(title);
         setPrice(price);
         setDescription(description)
         const apiClient = axios.create({
             baseURL: 'http://localhost:3000',
-            maxContentLength: 100 * 1024 * 1024, // 100MB (ajustez cette valeur selon vos besoins)
+            maxContentLength: 100 * 1024 * 1024
         });
         let token = sessionStorage.getItem("token");
-        if (token !== null && user) {
+        if (token !== null) {
             token = JSON.parse(token)
             try {
-                apiClient.post(`/addAnnonce`, {
+                apiClient.post(`/updateAnnonceFront/${annonce?._id}`, {
                         "title": title,
                         "description": description,
                         "price": price,
-                        "date": new Date(),
-                        "location": user?.city,
-                        "images": image,
-                        "profil": user._id
+                        "images": image
+                    },
+                        {
+                        headers: {
+                            Authorization: token,
+                        }
                     }
-                ).then(r => {
+                ).then(() => {
+                    sessionStorage.removeItem('annonce')
                 })
-                navigate(`/profil/${user?._id}`);
+                navigate(`/profil/${annonce?.profilUser?._id}`);
             } catch (e) {
 
             }
         }
+    }
+
+    const deleteImage = (index: number) => {
+        const images = [...image];
+        images.splice(index, 1)
+        setImage(images)
+
     }
 
     return (
@@ -130,7 +137,6 @@ function AjouterAnnonce() {
                                 accept="image/*"
                                 multiple
                                 onChange={onFileSelect}
-                                required={true}
                             />
                         </div>
                         <div className={"imagePreview"}>
@@ -151,4 +157,4 @@ function AjouterAnnonce() {
     )
 }
 
-export default AjouterAnnonce;
+export default Edit;

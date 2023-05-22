@@ -1,5 +1,5 @@
 import "./Messages.css"
-import NavBarProfil from "../../components/navBarProfil/NavBarProfil.tsx";
+import NavBarProfil from "../../components/NavBarProfil/NavBarProfil.tsx";
 import {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import {discussionExist, sendMessage} from "../../services/req.tsx";

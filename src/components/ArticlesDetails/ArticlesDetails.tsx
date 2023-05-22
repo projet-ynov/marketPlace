@@ -1,10 +1,10 @@
 import {format} from 'date-fns';
 import {fr} from "date-fns/locale";
-import "./Details.css";
+import "./ArticlesDetails.css";
 import {Avatar} from "@mui/material";
 
 
-function Details(article: Annonce) {
+function ArticlesDetails(article: Annonce) {
 
 
     const {title, images, description, price, date, location, profilUser} = article;
@@ -38,4 +38,4 @@ function Details(article: Annonce) {
     )
 }
 
-export default Details
+export default ArticlesDetails

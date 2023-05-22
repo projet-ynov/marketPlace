@@ -1,6 +1,6 @@
 import './Articles.css'
-import Details from "../articlesDetails/Details.tsx";
-import NavBar from "../../components/navBar/NavBar.tsx";
+import ArticlesDetails from "../../components/ArticlesDetails/ArticlesDetails.tsx";
+import NavBar from "../../components/NavBar/NavBar.tsx";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {getArticles} from "../../services/req.tsx";
@@ -41,7 +41,7 @@ function Articles() {
                 {data.map((article, index) => (
                     (article.status == 0 && (
                         <div key={index} className="articles" onClick={() => handleClick(article._id)}>
-                            <Details{...article}/>
+                            <ArticlesDetails{...article}/>
                         </div>
                     ))
                 ))}

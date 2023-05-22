@@ -4,12 +4,12 @@ import TabList from "@mui/lab/TabList";
 import Tab from "@mui/material/Tab";
 import TabPanel from "@mui/lab/TabPanel";
 import {SyntheticEvent, useEffect, useState} from "react";
-import MyAnnonces from "../tabsPages/myAnnonces/MyAnnonces.tsx";
-import MyFavorites from "../tabsPages/myFavorite/MyFavorites.tsx";
-import Settings from "../tabsPages/Settings/Settings.tsx";
-import Discussions from "../tabsPages/Discussions/Discussions.tsx";
-import Vendu from "../tabsPages/Vendu/Vendu.tsx";
-import Acheter from "../tabsPages/Acheter/Acheter.tsx";
+import MyAnnonces from "../TabsPages/myAnnonces/MyAnnonces.tsx";
+import MyFavorites from "../TabsPages/MyFavorite/MyFavorites.tsx";
+import Settings from "../TabsPages/Settings/Settings.tsx";
+import Discussions from "../TabsPages/Discussions/Discussions.tsx";
+import Sold from "../TabsPages/Sold/Sold.tsx";
+import BuyTabs from "../TabsPages/BuyTabs/BuyTabs.tsx";
 
 
 function Tabs({ idUser }: { idUser: string }) {
@@ -48,8 +48,8 @@ function Tabs({ idUser }: { idUser: string }) {
                     <TabPanel value="1"><MyAnnonces idUser={idUser}/></TabPanel>
                     <TabPanel value="2"><MyFavorites/></TabPanel>
                     <TabPanel value="3"><Discussions/></TabPanel>
-                    <TabPanel value="4"><Vendu/></TabPanel>
-                    <TabPanel value="5"><Acheter/></TabPanel>
+                    <TabPanel value="4"><Sold/></TabPanel>
+                    <TabPanel value="5"><BuyTabs/></TabPanel>
                     <TabPanel value="6"><Settings/></TabPanel>
                 </TabContext>
             </Box>

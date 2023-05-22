@@ -1,6 +1,6 @@
 import "./Profil.css"
-import NavBarProfil from "../../components/navBarProfil/NavBarProfil.tsx";
-import Tabs from "../../components/tabs/Tabs.tsx"
+import NavBarProfil from "../../components/NavBarProfil/NavBarProfil.tsx";
+import Tabs from "../../components/Tabs/Tabs.tsx"
 import axios from "axios";
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";

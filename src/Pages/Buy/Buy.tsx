@@ -1,11 +1,11 @@
 import {loadStripe, Stripe} from "@stripe/stripe-js";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import AchatForm from "../AchatForm/AchatForm.tsx";
+import SaleForm from "../SaleForm/SaleForm.tsx";
 import {Elements} from "@stripe/react-stripe-js";
-import "./Achat.css"
+import "./Buy.css"
 import {useParams} from "react-router-dom";
-function Achat() {
+function Buy() {
     const [stripePromise, setStripePromise] = useState<Promise<Stripe | null>>();
     const [clientSecret, setClientSecret] = useState<string | null >();
     const {idAnnonce} = useParams()
@@ -44,10 +44,10 @@ function Achat() {
         <>
             {stripePromise && clientSecret && (
                 <Elements stripe={stripePromise} options={{clientSecret}}>
-                <AchatForm />
+                <SaleForm />
             </Elements>)}
         </>
     );
 }
 
-export default Achat;
+export default Buy;
