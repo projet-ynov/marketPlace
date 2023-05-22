@@ -90,12 +90,7 @@ function Edit() {
                 })
                 navigate(`/profil/${annonce?.profilUser?._id}`);
             } catch (e) {
-                console.log(e)
-                // if(e.response.request.response.includes("username")){
-                //     setUsernameExist(true)
-                // }else if(e.response.request.response.includes("mail")){
-                //     setEmailExist(true)
-                // }
+
             }
         }
     }
@@ -103,7 +98,6 @@ function Edit() {
     const deleteImage = (index: number) => {
         const images = [...image];
         images.splice(index, 1)
-        console.log(images)
         setImage(images)
 
     }

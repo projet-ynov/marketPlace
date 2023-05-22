@@ -7,6 +7,7 @@ function Login() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [passwordIncorrect, setPasswordIncorrect] = useState(false);
     const navigate = useNavigate();
 
 
@@ -15,7 +16,7 @@ function Login() {
 
         setEmail(email);
         setPassword(password);
-
+        setPasswordIncorrect(false)
         try {
             await axios.post(`http://localhost:3000/login`, {
                 "mail": email,
@@ -25,13 +26,10 @@ function Login() {
                 sessionStorage.setItem('idUser', JSON.stringify(response.data[1].id))
             });
             navigate(`/`);
-        }catch (e) {
-            console.log(e)
-            // if(e.response.request.response.includes("username")){
-            //     setUsernameExist(true)
-            // }else if(e.response.request.response.includes("mail")){
-            //     setEmailExist(true)
-            // }
+        }catch (e: any) {
+            if(e.response.request.response.includes("Password incorrect")){
+                setPasswordIncorrect(true)
+            }
         }
 
 
@@ -56,6 +54,7 @@ function Login() {
                             <input type="password" name="password" value={password} onChange={(event) =>
                                 setPassword(event.target.value)
                             } required={true}/>
+                            {passwordIncorrect && (<p>Mot de passe incorrect</p>)}
                         </div>
                         <div className="champMail">
                             <button type="submit" className="bouton2" >Se connecter</button>

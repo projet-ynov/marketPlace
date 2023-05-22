@@ -9,7 +9,11 @@ import HomeIcon from '@mui/icons-material/Home';
 import axios from "axios";
 import {io} from "socket.io-client";
 import {getImgUser} from "../../services/req.tsx";
-import DialogSignalement from "../dialogSignalement/DialogSinalement.tsx";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
 
 function NavBar({handleSearch, dataRes}: { handleSearch?: any, dataRes?: any }) {
     const navigate = useNavigate();
@@ -34,8 +38,8 @@ function NavBar({handleSearch, dataRes}: { handleSearch?: any, dataRes?: any }) 
 
 
     useEffect(() => {
-        const socket = io('http://localhost:3000');
-        setSocket(socket);
+        const newSocket = io('http://localhost:3000');
+        setSocket(newSocket);
 
         return () => {
             socket.disconnect();
@@ -125,7 +129,6 @@ function NavBar({handleSearch, dataRes}: { handleSearch?: any, dataRes?: any }) 
                 userId,
                 date,
             };
-            console.log('Emitting ticket message');
             socket.emit('ticket', message);
             setTitleSignalement('');
             setMessageSignalement('');
@@ -175,8 +178,8 @@ function NavBar({handleSearch, dataRes}: { handleSearch?: any, dataRes?: any }) 
                         <MenuItem onClick={() => handleSortLetter('za')}>Z-A</MenuItem>
                     </Menu>
 
-                    <IconButton>
-                        <SearchIcon style={{color: "white"}} onClick={handleSearcher}/>
+                    <IconButton onClick={handleSearcher}>
+                        <SearchIcon style={{color: "white"}} />
                     </IconButton>
                 </div>
                 {isConnected ? (
@@ -206,10 +209,39 @@ function NavBar({handleSearch, dataRes}: { handleSearch?: any, dataRes?: any }) 
                     </div>
                 )}
             </div>
-            <DialogSignalement openModal={openModal} handleSignalerClose={handleSignalerClose}
-                               handleSignalerSend={handleSignalerSend} messageSignalement={messageSignalement}
-                               setMessageSignalement={setMessageSignalement} titleSignalement={titleSignalement}
-                               setTitleSignalement={setTitleSignalement}/>
+            <Dialog
+                open={openModal}
+                onClose={handleSignalerClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+
+            >
+                <DialogTitle id="alert-dialog-title" className={"titleSignalement"}>
+                    {"Une information à signaler ?"}
+                </DialogTitle>
+                <DialogContent>
+
+                    <div className={"containerSignalement"}>
+                        <label htmlFor="title">Titre:</label>
+                        <input type="text" name="title" value={titleSignalement} onChange={(event) =>
+                            setTitleSignalement(event.target.value)
+                        } required={true}/>
+
+                        <label htmlFor="description">Message:</label>
+                        <textarea name="description" value={messageSignalement} onChange={(event) =>
+                            setMessageSignalement(event.target.value)
+                        } required={true} className={"messageSignalement"}/>
+                    </div>
+
+                </DialogContent>
+
+                <DialogActions>
+                    <Button onClick={handleSignalerClose}>Annuler</Button>
+                    <Button onClick={handleSignalerSend}>
+                        Valider
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     )
 }

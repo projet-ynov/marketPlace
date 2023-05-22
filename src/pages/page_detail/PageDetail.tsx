@@ -90,7 +90,6 @@ function PageDetail() {
         let token = sessionStorage.getItem("token");
         if (token !== null) {
             token = JSON.parse(token)
-            console.log(idAnnonce)
             axios.post(`http://localhost:3000/addFavoris/${idAnnonce}`, {},
                 {
                     headers: {

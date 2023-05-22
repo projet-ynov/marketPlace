@@ -32,9 +32,7 @@ function Messages() {
                     }
                 },
             );
-            console.log("ici")
             if (msg.data != null) {
-                console.log(msg.data)
                 setDiscussion(msg.data)
                 setMessages([...msg.data.discussion])
             }
@@ -60,12 +58,10 @@ function Messages() {
 
 
         newSocket.on('connect', () => {
-            console.log('Connecté au serveur websocket');
 
         });
 
         newSocket.on('new-message', (discussions: any) => {
-            console.log("ici", discussions)
             setMessages(discussions.discussion);
         });
 

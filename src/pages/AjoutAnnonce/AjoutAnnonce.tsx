@@ -85,23 +85,12 @@ function AjouterAnnonce() {
                         "location": user?.city,
                         "images": image,
                         "profil": user._id
-                    },
-                    //     {
-                    //     headers: {
-                    //         Authorization: token,
-                    //     }
-                    // }
+                    }
                 ).then(r => {
-                    console.log(r)
                 })
                 navigate(`/profil/${user?._id}`);
             } catch (e) {
-                console.log(e)
-                // if(e.response.request.response.includes("username")){
-                //     setUsernameExist(true)
-                // }else if(e.response.request.response.includes("mail")){
-                //     setEmailExist(true)
-                // }
+
             }
         }
     }
