@@ -4,7 +4,7 @@ import TabList from "@mui/lab/TabList";
 import Tab from "@mui/material/Tab";
 import TabPanel from "@mui/lab/TabPanel";
 import {SyntheticEvent, useEffect, useState} from "react";
-import MyAnnonces from "../TabsPages/myAnnonces/MyAnnonces.tsx";
+import MyAnnonces from "../TabsPages/MyAnnonces/MyAnnonces.tsx";
 import MyFavorites from "../TabsPages/MyFavorite/MyFavorites.tsx";
 import Settings from "../TabsPages/Settings/Settings.tsx";
 import Discussions from "../TabsPages/Discussions/Discussions.tsx";
